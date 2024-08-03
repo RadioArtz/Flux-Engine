@@ -11,7 +11,7 @@
         {
             _childComponents.Add(Component);
             Component.OnComponentAttached(this);
-            Component._parentObject = this;
+            Component.SetParent(this);
         }
         public void RemoveComponent(BaseComponent Component)
         {

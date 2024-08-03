@@ -11,13 +11,9 @@ namespace Flux.Constants
         public static int RES_X { get; private set; } = 1280;
         public static int RES_Y { get; private set; } = 720;
         /// <summary>
-        /// Maximum Rate at which the game may render.
-        /// </summary>
-        public static int FPS_MAX { get; private set; } = 60;
-        /// <summary>
         /// Maximum Rate at which the game may update logic and phyics.
         /// </summary>
-        public static int UPDATE_MAX { get; private set; } = 30;
+        public static int UPDATE_MAX { get; private set; } = 0;
         /// <summary>
         /// 0 = off
         /// 1 = on
@@ -29,6 +25,5 @@ namespace Flux.Constants
         /// </summary>
         public static int FULLSCREEN_MODE { get; private set; } = 0;
         public static int MSAA_SAMPLES { get; private set; } = 16;
-        public static bool USE_MULTITHREADDING { get; private set; } = true;
     }
 }

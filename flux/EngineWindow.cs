@@ -7,12 +7,13 @@ using OpenTK.Mathematics;
 using Flux.Types;
 using OpenTK.Input;
 using OpenTK.Windowing.GraphicsLibraryFramework;
+using Un4seen.Bass;
 
 namespace Flux
 {
     public class EngineWindow : GameWindow
     {
-        #region penis
+        #region tmpMesh
         float[] vertices = {
      0.5f,  0.5f, 0.0f,  // top right
      0.5f, -0.5f, 0.0f,  // bottom right
@@ -25,8 +26,8 @@ namespace Flux
 };
         #endregion
 
-        StaticMeshAsset triangle;
-        Actor TriangleActor;
+        StaticMeshAsset mymesh;
+        Actor RenderTesterActor;
 
         public EngineWindow(NativeWindowSettings windowSettingsNative, GameWindowSettings windowSettingsGame) 
                :base(windowSettingsGame, windowSettingsNative)
@@ -48,16 +49,20 @@ namespace Flux
             {
                 Close();
             }
+            if(KeyboardState.IsKeyPressed(Keys.Space))
+            {
+                AudioSystemTMP.PlaySound((IntPtr)0);
+            }
         }
         protected override void OnLoad()
         {
             base.OnLoad();
-            triangle = new StaticMeshAsset(vertices, indices);
-            TriangleActor = new QuadActor();
-            TriangleActor.AddComponent(new StaticMeshComponent(triangle));
+            mymesh = new StaticMeshAsset(vertices, indices);
+            RenderTesterActor = new QuadActor();
+            RenderTesterActor.AddComponent(new StaticMeshComponent(mymesh));
             GL.ClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-            Debug.LogEngine("schenschin loaded");
-        }
+            Debug.LogEngine("engine initialized");
+         }
         protected override void OnResize(ResizeEventArgs e)
         {
             base.OnResize(e);

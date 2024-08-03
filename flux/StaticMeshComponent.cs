@@ -39,6 +39,7 @@ namespace Flux.Types
         }
         public void Render()
         {
+
             MeshShader.Use();
             GL.BindVertexArray(VertexArrayObject);
             GL.DrawElements(PrimitiveType.Triangles, StaticMesh.Indices.Length, DrawElementsType.UnsignedInt, 0);

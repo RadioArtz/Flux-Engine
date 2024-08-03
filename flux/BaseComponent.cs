@@ -8,12 +8,13 @@ namespace Flux.Types
 {
     public class BaseComponent
     {
-        public Actor _parentObject;
+        private Actor _parentObject;
         public Actor ParentObject => _parentObject;
 
         public BaseComponent()
         {
         }
+        
         public virtual void OnComponentAttached(Actor parentObject)
         {
         }
@@ -22,6 +23,9 @@ namespace Flux.Types
         {
         }
 
-        public Actor GetParent => ParentObject;
+        public void SetParent(Actor newParent)
+        {
+            _parentObject = newParent;
+        }
     }
 }

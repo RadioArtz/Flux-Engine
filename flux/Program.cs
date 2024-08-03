@@ -23,7 +23,7 @@ namespace Flux
             nativeSettings.Vsync = (VSyncMode)Rendering.VSYNC_MODE;
             nativeSettings.WindowState = (WindowState)Rendering.FULLSCREEN_MODE;
             nativeSettings.NumberOfSamples = Rendering.MSAA_SAMPLES;
-            nativeSettings.Title = "flucks";
+            nativeSettings.Title = "Flux2 Engine";
             gameSettings.UpdateFrequency = Rendering.UPDATE_MAX;
 
             window = new EngineWindow(nativeSettings, gameSettings);
