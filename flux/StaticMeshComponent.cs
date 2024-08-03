@@ -22,7 +22,7 @@ namespace Flux.Types
         public StaticMeshComponent(StaticMeshAsset staticMesh)
         {
             StaticMesh = staticMesh;
-            MeshShader = new Shader(@"A:\Projects\flux2\Flux\Shaders\main.vert", @"A:\Projects\flux2\Flux\Shaders\main.frag");
+            MeshShader = new Shader(@"Shaders\main.vert", @"Shaders\main.frag");
             VertexArrayObject = GL.GenVertexArray();
             VertexBufferObject = GL.GenBuffer();
             ElementBufferObject = GL.GenBuffer();
@@ -39,7 +39,6 @@ namespace Flux.Types
         }
         public void Render()
         {
-
             MeshShader.Use();
             GL.BindVertexArray(VertexArrayObject);
             GL.DrawElements(PrimitiveType.Triangles, StaticMesh.Indices.Length, DrawElementsType.UnsignedInt, 0);

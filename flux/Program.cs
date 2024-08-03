@@ -19,7 +19,7 @@ namespace Flux
         static void InitEngine()
         {
             nativeSettings = NativeWindowSettings.Default;
-            nativeSettings.Size = new Vector2i(Rendering.RES_X, Rendering.RES_Y);
+            nativeSettings.ClientSize = new Vector2i(Rendering.RES_X, Rendering.RES_Y);
             nativeSettings.Vsync = (VSyncMode)Rendering.VSYNC_MODE;
             nativeSettings.WindowState = (WindowState)Rendering.FULLSCREEN_MODE;
             nativeSettings.NumberOfSamples = Rendering.MSAA_SAMPLES;

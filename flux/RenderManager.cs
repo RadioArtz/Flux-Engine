@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Flux.Types;
+
 namespace Flux
 {
     internal static class RenderManager
