@@ -1,4 +1,5 @@
 ﻿using Flux.Core.Rendering;
+using Flux.Types;
 
 namespace Flux.Materials
 {
@@ -13,9 +14,9 @@ namespace Flux.Materials
         {
             return "Shaders\\unlit_textured.frag";
         }
-        public override void Render()
+        public override void Render(TransformComponent inTransform)
         {
-            base.Render();
+            base.Render(inTransform);
         }
     }
 }

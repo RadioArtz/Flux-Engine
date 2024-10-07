@@ -1,4 +1,5 @@
 ﻿using Flux.Core.Rendering;
+using Flux.Types;
 
 namespace Flux.Materials
 {
@@ -13,10 +14,10 @@ namespace Flux.Materials
         {
             return "Shaders\\main.frag";
         }
-        public override void Render()
+        public override void Render(TransformComponent inTransform)
         {
-            _shader.SetVector4("color", new OpenTK.Mathematics.Vector4(1,1,1,1));
-            base.Render();
+            _shader.SetVector4("color", new OpenTK.Mathematics.Vector4(1));
+            base.Render(inTransform);
         }
     }
 }

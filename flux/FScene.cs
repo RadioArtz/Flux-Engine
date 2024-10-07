@@ -5,6 +5,6 @@ namespace Flux.Core
     {
         public FScene() { }
         public virtual void OnLoad() { }
-        public virtual void OnTick() { }
+        public virtual void OnTick(float delta) { }
     }
 }

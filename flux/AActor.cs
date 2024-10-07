@@ -3,9 +3,13 @@ namespace Flux.Types
 {
     public abstract class AActor
     {
-        public string ObjectName = "NAN";
+        public string ObjectName = "Unnamed";
         private List<BaseComponent> _childComponents = new List<BaseComponent>();
         public List<BaseComponent> ChildComponents { get => _childComponents; }
+
+        private TransformComponent _transformComponent = new TransformComponent();
+        public TransformComponent TransformComponent { get => _transformComponent; }
+
         public abstract void Constructor();
         public abstract void BeginPlay();
         public void AddComponent(BaseComponent Component)

@@ -1,5 +1,6 @@
 ﻿using Flux.Constants;
 using Flux.Types;
+using OpenTK.Mathematics;
 
 namespace Flux.Core.Rendering
 {
@@ -9,12 +10,15 @@ namespace Flux.Core.Rendering
         private static List<ShaderRef> _shaders = new List<ShaderRef>();
         private static List<StaticMeshComponent> _staticMeshComponents = new List<StaticMeshComponent>();
         public static List<StaticMeshComponent> StaticMeshComponents => _staticMeshComponents;
-        
+        public static CameraComponent activeCamera;
+        public static Matrix4 _projection;
+
         static RenderManager()
         {
             Debug.Log("Preparing Fallback shaders...", ConsoleColor.Cyan, ConsoleColor.DarkGray);
             _fallbackshader = new Shader(RenderingConfig.SHADER_FALLBACK_VERT, RenderingConfig.SHADER_FALLBACK_FRAG);
             Debug.Log("Finished preparing Fallback shaders!", ConsoleColor.Cyan, ConsoleColor.DarkGray);
+
         }
         public static bool RegisterStaticMeshComponent(StaticMeshComponent Component)
         {

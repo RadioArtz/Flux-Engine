@@ -8,8 +8,6 @@ namespace Flux.Types
     {
         public StaticMeshAsset _staticMesh;
 
-        //TODO switch for Materials later on
-        //public Shader MeshShader;
         public Material _material;
 
         private int VertexBufferObject;
@@ -27,7 +25,9 @@ namespace Flux.Types
             {
                 _material = new WhiteMat();
             }
+
             float[] mergedMeshData = MergedMeshArray();
+
             VertexBufferObject = GL.GenBuffer();
             GL.BindBuffer(BufferTarget.ArrayBuffer, VertexBufferObject);
             GL.BufferData(BufferTarget.ArrayBuffer, mergedMeshData.Length * sizeof(float), mergedMeshData, BufferUsageHint.StaticDraw);
@@ -47,7 +47,6 @@ namespace Flux.Types
             GL.VertexAttribPointer(normalLocation, 3, VertexAttribPointerType.Float, false, 8 * sizeof(float), 5 * sizeof(float));
             GL.EnableVertexAttribArray(normalLocation);
             
-
             ElementBufferObject = GL.GenBuffer();
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, ElementBufferObject);
             GL.BufferData(BufferTarget.ElementArrayBuffer, _staticMesh.Indices.Length * sizeof(uint), _staticMesh.Indices, BufferUsageHint.StaticDraw);
@@ -59,7 +58,7 @@ namespace Flux.Types
         public void Render()
         {
             GL.BindVertexArray(VertexArrayObject);
-            _material.Render();
+            _material.Render(ParentObject.TransformComponent);
             GL.DrawElements(PrimitiveType.Triangles, _staticMesh.Indices.Length, DrawElementsType.UnsignedInt, 0);
         }
 
