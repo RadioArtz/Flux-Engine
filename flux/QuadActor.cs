@@ -2,7 +2,7 @@
 
 namespace Flux
 {
-    public class QuadActor : Actor
+    public class QuadActor : AActor
     {
         public override void BeginPlay()
         {

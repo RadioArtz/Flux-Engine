@@ -1,6 +1,6 @@
 ﻿namespace Flux.Types
 {
-    public abstract class Actor
+    public abstract class AActor
     {
         public string ObjectName = "NAN";
         private List<BaseComponent> _childComponents = new List<BaseComponent>();

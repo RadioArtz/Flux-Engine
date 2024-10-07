@@ -70,6 +70,11 @@ namespace Flux.Core.AssetManagement
             loadedMesh = new MeshRef(-1,-1);
             return -1;
         }
+
+        public static StaticMeshAsset GetMeshAssetFromRef(MeshRef inRef)
+        {
+            return _meshes[inRef._meshIndex];
+        }
         #region Data Converters
         static float[] ConvertVertecies(Mesh inAssimpMesh, bool b_IncludeTexCoords, bool b_IncludeNormals, int uvChannel)
         {

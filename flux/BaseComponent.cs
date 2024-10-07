@@ -8,18 +8,18 @@ namespace Flux.Types
 {
     public class BaseComponent
     {
-        private Actor _parentObject;
-        public Actor ParentObject => _parentObject;
+        private AActor _parentObject;
+        public AActor ParentObject => _parentObject;
         public BaseComponent()
         {
         }
-        public virtual void OnComponentAttached(Actor parentObject)
+        public virtual void OnComponentAttached(AActor parentObject)
         {
         }
         public virtual void OnComponentDestroyed()
         {
         }
-        public void SetParent(Actor newParent)
+        public void SetParent(AActor newParent)
         {
             _parentObject = newParent;
         }

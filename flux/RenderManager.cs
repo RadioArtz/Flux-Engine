@@ -74,13 +74,9 @@ namespace Flux.Core.Rendering
                 string tmpString = fragShader + vertShader;
                 int tmpGUID = tmpString.GetHashCode();
                 if (tmpGUID == current._guid)
-                {
                     return true;
-                }
                 else
-                {
                     return true;
-                }
             }
             return false;
         }

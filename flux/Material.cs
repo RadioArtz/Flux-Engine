@@ -10,7 +10,7 @@ namespace Flux.Core.Rendering
 {
     public class Material
     {
-        public virtual string getVertShaderPath()
+        public virtual string getVertShaderPath() 
         {
             return vertShaderPath;
         }
@@ -18,19 +18,17 @@ namespace Flux.Core.Rendering
         {
             return fragShaderpath;
         }
+
         public string vertShaderPath = RenderingConfig.SHADER_FALLBACK_VERT;
         public string fragShaderpath = RenderingConfig.SHADER_FALLBACK_FRAG;
-        public Shader shader;
+        public Shader _shader;
 
-        public void Compile()
-        {
-            shader = RenderManager.CompileAndRegisterShader(getFragShaderPath(), getVertShaderPath());
-        }
+        public void Compile()=> _shader = RenderManager.CompileAndRegisterShader(getFragShaderPath(), getVertShaderPath());
 
         public virtual void Render() 
         {
             if (RenderManager.CheckIfShaderCompiled(getFragShaderPath(), getVertShaderPath()))
-                shader.Use();
+                _shader.Use();
             else
                 Compile();
         }

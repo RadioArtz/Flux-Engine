@@ -33,6 +33,7 @@ namespace Flux.Types
         float[] _normals = {};
         uint[] _indices;
 
+        public string FilePath { get => _path; }
         public float[] Vertices { get => _vertices; }
         public uint[] Indices { get => _indices; } 
         public float[] UVCoords { get => _uvCoords; }

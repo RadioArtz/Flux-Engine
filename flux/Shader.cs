@@ -113,6 +113,10 @@ namespace Flux.Types
             Dispose(true);
             GC.SuppressFinalize(this);
         }
+        public int GetAttribLocation(string attribName)
+        {
+            return GL.GetAttribLocation(_handle, attribName);
+        }
 
         #region setting utils
         // Uniform setters

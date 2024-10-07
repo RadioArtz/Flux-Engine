@@ -8,20 +8,19 @@ using System.Threading.Tasks;
 
 namespace Flux.Materials
 {
-    public class BlackMat : Material
+    public class UnlitTexturedMat : Material
     {
-        public BlackMat() { Compile(); }
+        public UnlitTexturedMat() { Compile(); }
         public override string getVertShaderPath()
         {
-            return "Shaders\\main.vert";
+            return "Shaders\\unlit_textured.vert";
         }
         public override string getFragShaderPath()
         {
-            return "Shaders\\main.frag";
+            return "Shaders\\unlit_textured.frag";
         }
         public override void Render()
         {
-            _shader.SetVector4("color", new OpenTK.Mathematics.Vector4(0));
             base.Render();
         }
     }

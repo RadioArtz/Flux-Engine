@@ -15,7 +15,7 @@ namespace Flux.Materials
         }
         public override void Render()
         {
-            shader.SetVector4("color", new OpenTK.Mathematics.Vector4(1,1,1,1));
+            _shader.SetVector4("color", new OpenTK.Mathematics.Vector4(1,1,1,1));
             base.Render();
         }
     }
