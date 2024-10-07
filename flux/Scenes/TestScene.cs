@@ -2,7 +2,6 @@
 using Flux.Core.AssetManagement;
 using Flux.Types;
 
-
 namespace Flux
 {
     public class TestScene : FScene

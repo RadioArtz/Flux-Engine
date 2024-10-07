@@ -1,13 +1,7 @@
-﻿using Microsoft.VisualBasic;
-using OpenTK.Graphics.OpenGL4;
-using System.Diagnostics;
+﻿using OpenTK.Graphics.OpenGL4;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
-using OpenTK.Mathematics;
-using Flux.Types;
-using OpenTK.Input;
 using OpenTK.Windowing.GraphicsLibraryFramework;
-using Un4seen.Bass;
 using Flux.Core.Rendering;
 
 namespace Flux.Core

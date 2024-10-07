@@ -1,8 +1,6 @@
-﻿
-using OpenTK.Graphics.OpenGL4;
+﻿using OpenTK.Graphics.OpenGL4;
 using Flux.Core.Rendering;
 using Flux.Materials;
-using System.Threading.Channels;
 
 namespace Flux.Types
 {

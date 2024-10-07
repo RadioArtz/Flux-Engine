@@ -1,4 +1,5 @@
-﻿namespace Flux.Core
+﻿
+namespace Flux.Core
 {
     public static class Debug
     {

@@ -1,4 +1,5 @@
-﻿namespace Flux.Types
+﻿
+namespace Flux.Types
 {
     public abstract class AActor
     {

@@ -1,9 +1,7 @@
 ﻿using OpenTK.Mathematics;
 using OpenTK.Windowing.Desktop;
-using System;
 using Flux.Constants;
 using OpenTK.Windowing.Common;
-using Flux.Types;
 using Flux.Core;
 
 namespace Flux
