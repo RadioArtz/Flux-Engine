@@ -1,4 +1,5 @@
 ﻿using Flux.Core;
+using Flux.Core.AssetManagement;
 using Flux.Types;
 
 
@@ -35,6 +36,8 @@ namespace Flux
         StaticMeshAsset mymesh2;
         Actor RenderTesterActor;
         Actor RenderTesterActor2;
+        MeshRef myAwesomeMesh;
+        MeshRef myAwesomeMesh2;
         public override void OnLoad()
         {
             base.OnLoad();
@@ -44,6 +47,9 @@ namespace Flux
             RenderTesterActor.AddComponent(new StaticMeshComponent(mymesh,false));
             RenderTesterActor2 = new QuadActor();
             RenderTesterActor2.AddComponent(new StaticMeshComponent(mymesh2,true));
+
+            myAwesomeMesh = MeshLoader.LoadMeshFromFile(@"A:\GinV2.fbx");
+            myAwesomeMesh2 = MeshLoader.LoadMeshFromFile(@"A:\GinV2.fbx");
         }
     }
 }

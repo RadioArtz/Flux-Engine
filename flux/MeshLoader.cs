@@ -13,12 +13,16 @@ namespace Flux.Core.AssetManagement
             int loadedCheck = CheckMeshLoaded(filePath);
             if (loadedCheck != -1)
             {
+                Debug.LogEngine("Mesh with Guid " + filePath.GetHashCode() +  " already loaded!");
                 return _meshRefs[loadedCheck];
             }
-
+            Debug.LogEngine(loadedCheck);
             var assimpContext = new AssimpContext();
             var assimpScene = assimpContext.ImportFile(filePath, PostProcessSteps.GenerateNormals | PostProcessSteps.GenerateUVCoords | PostProcessSteps.Triangulate | PostProcessSteps.FindInvalidData | PostProcessSteps.OptimizeMeshes | PostProcessSteps.ImproveCacheLocality | PostProcessSteps.JoinIdenticalVertices);
-            
+
+            //This needs to be expanded to handle more than the first mesh in the assimp scene!
+            //Will need to update StaticMeshAsset for this
+            Debug.LogError("Only loading first mesh from assimp scene! Handle full assimpscene later (MeshLoader & Static Mesh Asset!)");
             float[] tmpVerts = ConvertVertecies(assimpScene.Meshes[0], false, false, 0);
             float[] tmpUvs = ConvertUVCoords(assimpScene.Meshes[0],0);
             float[] tmpNormals = ConvertNormals(assimpScene.Meshes[0]);
@@ -35,15 +39,18 @@ namespace Flux.Core.AssetManagement
             MeshRef tmpMeshRef = new MeshRef();
             tmpMeshRef._meshIndex = assetIndex;
             tmpMeshRef._guid = filePath.GetHashCode();
+            _meshRefs.Add(tmpMeshRef);
             return tmpMeshRef;
         }
 
         public static int CheckMeshLoaded(string filePath)
         {
             int tmpGuid = filePath.GetHashCode() ;
+            Debug.LogEngine("Checking for mesh with GUID: " + tmpGuid);
             foreach (MeshRef mRef in _meshRefs)
             {
-                if(mRef._guid == tmpGuid) return mRef._meshIndex;
+                if(mRef._guid == tmpGuid) 
+                    return mRef._meshIndex;
             }
             return -1;
         }
@@ -51,6 +58,7 @@ namespace Flux.Core.AssetManagement
         public static int CheckMeshLoaded(string filePath, out MeshRef loadedMesh)
         {
             int tmpGuid = filePath.GetHashCode();
+            Debug.LogEngine("Checking for mesh with GUID: " + tmpGuid);
             foreach (MeshRef mRef in _meshRefs)
             {
                 if (mRef._guid == tmpGuid)
@@ -62,8 +70,8 @@ namespace Flux.Core.AssetManagement
             loadedMesh = new MeshRef(-1,-1);
             return -1;
         }
-        #region converters
-        public static float[] ConvertVertecies(Mesh inAssimpMesh, bool b_IncludeTexCoords, bool b_IncludeNormals, int uvChannel)
+        #region Data Converters
+        static float[] ConvertVertecies(Mesh inAssimpMesh, bool b_IncludeTexCoords, bool b_IncludeNormals, int uvChannel)
         {
             Debug.Log("Converting Vertecies", ConsoleColor.DarkYellow);
             int index = 0;
@@ -90,7 +98,7 @@ namespace Flux.Core.AssetManagement
             return tmplist.ToArray();
         }
 
-        public static float[] ConvertUVCoords(Mesh inAssimpMesh, int uvChannel)
+        static float[] ConvertUVCoords(Mesh inAssimpMesh, int uvChannel)
         {
             Debug.Log("Converting UVs", ConsoleColor.DarkYellow);
             var tmplist = new List<float>();
@@ -102,7 +110,7 @@ namespace Flux.Core.AssetManagement
             return tmplist.ToArray();
         }
 
-        public static uint[] ConvertIndecies(Mesh inAssimpMesh)
+        static uint[] ConvertIndecies(Mesh inAssimpMesh)
         {
             Debug.Log("Converting Indecies", ConsoleColor.DarkYellow);
             var tmplist = new List<uint>();
@@ -116,7 +124,7 @@ namespace Flux.Core.AssetManagement
             return tmplist.ToArray();
         }
 
-        public static float[] ConvertNormals(Mesh inAssimpMesh)
+        static float[] ConvertNormals(Mesh inAssimpMesh)
         {
             Debug.Log("Converting Normals", ConsoleColor.DarkYellow);
             var tmplist = new List<float>();
