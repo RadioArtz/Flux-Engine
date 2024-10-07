@@ -1,10 +1,6 @@
 ﻿using Flux.Core;
 using Flux.Types;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Flux
 {
@@ -22,7 +18,6 @@ namespace Flux
     1, 2, 3    // second triangle
 };
         #endregion
-
         #region tmpMesh2
         float[] vertices2 = {
      0.0f,  0.5f, 0.0f,  // top right
@@ -35,6 +30,7 @@ namespace Flux
     1, 2, 3    // second triangle
 };
         #endregion
+
         StaticMeshAsset mymesh;
         StaticMeshAsset mymesh2;
         Actor RenderTesterActor;
@@ -42,8 +38,8 @@ namespace Flux
         public override void OnLoad()
         {
             base.OnLoad();
-            mymesh = new StaticMeshAsset(vertices, indices);
-            mymesh2 = new StaticMeshAsset(vertices2, indices2);
+            mymesh = new StaticMeshAsset(vertices, null, null, indices, null);
+            mymesh2 = new StaticMeshAsset(vertices2, null, null, indices2, null);
             RenderTesterActor = new QuadActor();
             RenderTesterActor.AddComponent(new StaticMeshComponent(mymesh,false));
             RenderTesterActor2 = new QuadActor();

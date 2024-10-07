@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Flux.Constants;
+﻿using Flux.Constants;
 using Flux.Types;
 
 namespace Flux.Core.Rendering
@@ -19,6 +14,7 @@ namespace Flux.Core.Rendering
         {
             Debug.Log("Preparing Fallback shaders...", ConsoleColor.Cyan, ConsoleColor.DarkGray);
             _fallbackshader = new Shader(RenderingConfig.SHADER_FALLBACK_VERT, RenderingConfig.SHADER_FALLBACK_FRAG);
+            Debug.Log("Finished preparing Fallback shaders!", ConsoleColor.Cyan, ConsoleColor.DarkGray);
         }
         public static bool RegisterStaticMeshComponent(StaticMeshComponent Component)
         {
