@@ -2,7 +2,7 @@
 {
     public abstract class Actor
     {
-        public string ObjectName = "NAN (DAS IST NOT A NAME NICHT NOT A NUMBER DU HURENSOHN)";
+        public string ObjectName = "NAN";
         private List<BaseComponent> _childComponents = new List<BaseComponent>();
         public List<BaseComponent> ChildComponents { get => _childComponents; }
         public abstract void Constructor();

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Flux
+﻿namespace Flux.Core
 {
     public static class Debug
     {
@@ -21,14 +19,12 @@ namespace Flux
             Console.WriteLine("Log: " + obj);
             Console.ResetColor();
         }
-
         public static void LogEngine(object obj)
         {
             Console.ForegroundColor = ConsoleColor.DarkGray;
             Console.WriteLine("EngineLog: " + obj);
             Console.ResetColor();
         }
-
         public static void LogError(object obj)
         {
             Console.ForegroundColor= ConsoleColor.Red;

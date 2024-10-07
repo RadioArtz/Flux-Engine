@@ -5,6 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenTK;
 using OpenTK.Graphics.OpenGL4;
+using Flux.Core;
+using Flux.Core.Rendering;
+using Flux.Materials;
 
 namespace Flux.Types
 {
@@ -13,16 +16,27 @@ namespace Flux.Types
         public StaticMeshAsset StaticMesh;
 
         //TODO switch for Materials later on
-        public Shader MeshShader;
+        //public Shader MeshShader;
+        public Material material;
 
         private int VertexBufferObject;
         private int VertexArrayObject;
         private int ElementBufferObject;
 
-        public StaticMeshComponent(StaticMeshAsset staticMesh)
+        public StaticMeshComponent(StaticMeshAsset staticMesh, bool yee)
         {
             StaticMesh = staticMesh;
-            MeshShader = new Shader(@"Shaders\main.vert", @"Shaders\main.frag");
+            //MeshShader = new Shader("Shaders\\main.vert", "Shaders\\main.frag");
+
+            if (yee)
+            {
+                material = new BlackMat();
+            }
+            else
+            {
+                material = new WhiteMat();
+            }
+
             VertexArrayObject = GL.GenVertexArray();
             VertexBufferObject = GL.GenBuffer();
             ElementBufferObject = GL.GenBuffer();
@@ -39,7 +53,7 @@ namespace Flux.Types
         }
         public void Render()
         {
-            MeshShader.Use();
+            material.Render();
             GL.BindVertexArray(VertexArrayObject);
             GL.DrawElements(PrimitiveType.Triangles, StaticMesh.Indices.Length, DrawElementsType.UnsignedInt, 0);
         }

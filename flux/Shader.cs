@@ -6,15 +6,23 @@ using System.Threading.Tasks;
 using OpenTK;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
+using System.Security.Cryptography;
 
-namespace Flux
+namespace Flux.Types
 {
+    public struct ShaderRef
+    {
+        public Shader _shader;
+        public int _guid;
+    }
     public class Shader
     {
         private int _handle;
         private readonly Dictionary<string, int> uniformLocations;
         public Shader(string vertexPath, string fragmentPath)
         {
+            Core.Debug.LogEngine("Compiling Vertex Shader..." + vertexPath);
+            Core.Debug.LogEngine("Compiling Fragment Shader..." + fragmentPath);
             int VertexShader;
             int FragmentShader;
 
@@ -100,14 +108,11 @@ namespace Flux
             }
         }
 
-
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-
-
 
         #region setting utils
         // Uniform setters

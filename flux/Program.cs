@@ -4,6 +4,7 @@ using System;
 using Flux.Constants;
 using OpenTK.Windowing.Common;
 using Flux.Types;
+using Flux.Core;
 
 namespace Flux
 {
@@ -19,12 +20,12 @@ namespace Flux
         static void InitEngine()
         {
             nativeSettings = NativeWindowSettings.Default;
-            nativeSettings.ClientSize = new Vector2i(Rendering.RES_X, Rendering.RES_Y);
-            nativeSettings.Vsync = (VSyncMode)Rendering.VSYNC_MODE;
-            nativeSettings.WindowState = (WindowState)Rendering.FULLSCREEN_MODE;
-            nativeSettings.NumberOfSamples = Rendering.MSAA_SAMPLES;
+            nativeSettings.ClientSize = new Vector2i(RenderingConfig.RES_X, RenderingConfig.RES_Y);
+            nativeSettings.Vsync = (VSyncMode)RenderingConfig.VSYNC_MODE;
+            nativeSettings.WindowState = (WindowState)RenderingConfig.FULLSCREEN_MODE;
+            nativeSettings.NumberOfSamples = RenderingConfig.MSAA_SAMPLES;
             nativeSettings.Title = "Flux2 Engine";
-            gameSettings.UpdateFrequency = Rendering.UPDATE_MAX;
+            gameSettings.UpdateFrequency = RenderingConfig.UPDATE_MAX;
 
             window = new EngineWindow(nativeSettings, gameSettings);
             window.Run();

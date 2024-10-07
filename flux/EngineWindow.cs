@@ -8,26 +8,13 @@ using Flux.Types;
 using OpenTK.Input;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using Un4seen.Bass;
+using Flux.Core.Rendering;
 
-namespace Flux
+namespace Flux.Core
 {
     public class EngineWindow : GameWindow
     {
-        #region tmpMesh
-        float[] vertices = {
-     0.5f,  0.5f, 0.0f,  // top right
-     0.5f, -0.5f, 0.0f,  // bottom right
-    -0.5f, -0.5f, 0.0f,  // bottom left
-    -0.5f,  0.5f, 0.0f   // top left
-};
-        uint[] indices = {  // note that we start from 0!
-    0, 1, 3,   // first triangle
-    1, 2, 3    // second triangle
-};
-        #endregion
-
-        StaticMeshAsset mymesh;
-        Actor RenderTesterActor;
+        public TestScene tstScn;
 
         public EngineWindow(NativeWindowSettings windowSettingsNative, GameWindowSettings windowSettingsGame) 
                :base(windowSettingsGame, windowSettingsNative)
@@ -57,11 +44,10 @@ namespace Flux
         protected override void OnLoad()
         {
             base.OnLoad();
-            mymesh = new StaticMeshAsset(vertices, indices);
-            RenderTesterActor = new QuadActor();
-            RenderTesterActor.AddComponent(new StaticMeshComponent(mymesh));
+            tstScn = new TestScene();
+            tstScn.OnLoad();
             GL.ClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-            Debug.LogEngine("engine initialized");
+            Debug.LogEngine("Engine initialized");
          }
         protected override void OnResize(ResizeEventArgs e)
         {

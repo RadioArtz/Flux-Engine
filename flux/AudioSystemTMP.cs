@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Un4seen.Bass;
 
-namespace Flux
+namespace Flux.Core
 {
     public static class AudioSystemTMP
     {

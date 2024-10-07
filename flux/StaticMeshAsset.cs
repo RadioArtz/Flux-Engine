@@ -8,6 +8,11 @@ namespace Flux.Types
 {
     public struct StaticMeshAsset
     {
+        public struct MeshRef
+        {
+            public StaticMeshAsset _mesh;
+            public int _guid;
+        }
         public StaticMeshAsset(float[] verts, uint[] indices)
         {
             _vertices = verts;

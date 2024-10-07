@@ -2,17 +2,16 @@
 using Assimp;
 using System;
 
-namespace Flux
+namespace Flux.Core
 {
     static class AssetImporter
     {
-        public static Assimp.Scene LoadMeshSync(string path)
+        public static Scene LoadMeshSync(string path)
         {
             var assimpContext = new AssimpContext();
             var assimpScene = assimpContext.ImportFile(path, PostProcessSteps.GenerateNormals | PostProcessSteps.GenerateUVCoords | PostProcessSteps.Triangulate | PostProcessSteps.FindInvalidData | PostProcessSteps.OptimizeMeshes | PostProcessSteps.ImproveCacheLocality | PostProcessSteps.JoinIdenticalVertices);
             return assimpScene;
         }
-
         public static float[] ConvertVertecies(Mesh inAssimpMesh, bool b_IncludeTexCoords, bool b_IncludeNormals, int uvChannel)
         {
             Debug.LogEngine("Converting Vertecies");
