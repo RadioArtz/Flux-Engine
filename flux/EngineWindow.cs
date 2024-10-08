@@ -36,11 +36,11 @@ namespace Flux.Core
             if (KeyboardState.IsKeyDown(Keys.Escape))
             {
                 Close();
-            }
+            }/*
             if(KeyboardState.IsKeyPressed(Keys.Space))
             {
                 AudioSystemTMP.PlaySound((IntPtr)0);
-            }
+            }*/
         }
         public void SetShowMouseCursor(CursorState showCursor)
         {
@@ -53,10 +53,13 @@ namespace Flux.Core
         protected override void OnLoad()
         {
             base.OnLoad();
+            _deltaCalc.Start();
             GL.Enable(EnableCap.DepthTest);
             GL.Enable(EnableCap.Multisample);
+            GL.Enable(EnableCap.CullFace);
+            GL.CullFace(CullFaceMode.Back);
+            GL.FrontFace(FrontFaceDirection.Ccw);
 
-            _deltaCalc.Start();
             tstScn = new TestScene();
             tstScn.OnLoad();
             GL.ClearColor(0.2f, 0.3f, 0.3f, 1.0f);
