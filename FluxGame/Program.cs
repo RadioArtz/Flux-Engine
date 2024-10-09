@@ -6,7 +6,6 @@ namespace FluxGame
     {
         public static void Main()
         {
-            Flux.Core.Debug.Log("Waiting for window creation");
             Engine.Main(null, () => GameStart()); ;
         }
         public static void GameStart()
