@@ -1,11 +1,11 @@
 ﻿using Flux.Core.Rendering;
 using Flux.Types;
 
-namespace Flux.Materials
+namespace FluxGame.Materials
 {
-    public class WhiteMat : Material
+    public class BlackMat : Material
     {
-        public WhiteMat() { Compile(); }
+        public BlackMat() { Compile(); }
         public override string getVertShaderPath()
         {
             return "Shaders\\main.vert";
@@ -16,7 +16,7 @@ namespace Flux.Materials
         }
         public override void Render(TransformComponent inTransform)
         {
-            _shader.SetVector4("color", new OpenTK.Mathematics.Vector4(1));
+            _shader.SetVector4("color", new OpenTK.Mathematics.Vector4(0));
             base.Render(inTransform);
         }
     }

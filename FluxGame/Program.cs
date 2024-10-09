@@ -1,5 +1,4 @@
 ﻿using Flux;
-using System.Diagnostics;
 
 namespace FluxGame
 {
@@ -14,6 +13,5 @@ namespace FluxGame
         {
             Engine.window.SetActiveScene(new TestScene());
         }
-
     }
 }

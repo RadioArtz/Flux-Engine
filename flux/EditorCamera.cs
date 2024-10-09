@@ -18,7 +18,6 @@ namespace Flux.Types
         }
         public override void OnTick(float delta)
         {
-            Debug.Log("hi");
             Mouse = _window.MouseState;
             Keyboard = _window.KeyboardState;
             TransformComponent trans = ParentObject.TransformComponent;

@@ -3,6 +3,7 @@ using Flux.Core.AssetManagement;
 using Flux.Core.Rendering;
 using Flux.Types;
 using Flux;
+using FluxGame.Materials;
 
 namespace FluxGame
 {
@@ -21,7 +22,7 @@ namespace FluxGame
             Debug.Log("Loading Mesh!");
             myAwesomeMesh = MeshLoader.LoadMeshFromFile(@"A:\_Terrain.obj");
             RenderTesterActor = new QuadActor();
-            RenderTesterActor.AddComponent(new StaticMeshComponent(MeshLoader.GetMeshAssetFromRef(myAwesomeMesh),false));
+            RenderTesterActor.AddComponent(new StaticMeshComponent(MeshLoader.GetMeshAssetFromRef(myAwesomeMesh),new WhiteMat()));
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using OpenTK.Graphics.OpenGL4;
 using Flux.Core.Rendering;
-using Flux.Materials;
 
 namespace Flux.Types
 {
@@ -14,17 +13,10 @@ namespace Flux.Types
         private int VertexArrayObject;
         private int ElementBufferObject;
 
-        public StaticMeshComponent(StaticMeshAsset staticMesh, bool yee)
+        public StaticMeshComponent(StaticMeshAsset staticMesh, Material mat)
         {
             _staticMesh = staticMesh;
-            if (yee)
-            {
-                _material = new BlackMat();
-            }
-            else
-            {
-                _material = new WhiteMat();
-            }
+            _material = mat;
 
             float[] mergedMeshData = MergedMeshArray();
 

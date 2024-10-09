@@ -1,21 +1,22 @@
 ﻿using Flux.Core.Rendering;
 using Flux.Types;
 
-namespace Flux.Materials
+namespace FluxGame.Materials
 {
-    public class UnlitTexturedMat : Material
+    public class WhiteMat : Material
     {
-        public UnlitTexturedMat() { Compile(); }
+        public WhiteMat() { Compile(); }
         public override string getVertShaderPath()
         {
-            return "Shaders\\unlit_textured.vert";
+            return "Shaders\\main.vert";
         }
         public override string getFragShaderPath()
         {
-            return "Shaders\\unlit_textured.frag";
+            return "Shaders\\main.frag";
         }
         public override void Render(TransformComponent inTransform)
         {
+            _shader.SetVector4("color", new OpenTK.Mathematics.Vector4(1));
             base.Render(inTransform);
         }
     }
