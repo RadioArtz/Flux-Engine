@@ -1,10 +1,19 @@
 ﻿using Flux;
+using System.Diagnostics;
 
-public static class FluxGame
+namespace FluxGame
 {
-   public static void Main()
+    public static class Game
     {
-        Engine.Main(null);
-        Engine.window.SetActiveScene(new TestScene());
+        public static void Main()
+        {
+            Flux.Core.Debug.Log("Waiting for window creation");
+            Engine.Main(null, () => GameStart()); ;
+        }
+        public static void GameStart()
+        {
+            Engine.window.SetActiveScene(new TestScene());
+        }
+
     }
 }

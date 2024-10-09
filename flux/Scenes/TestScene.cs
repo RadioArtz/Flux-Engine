@@ -2,9 +2,8 @@
 using Flux.Core.AssetManagement;
 using Flux.Core.Rendering;
 using Flux.Types;
-using Flux;
 
-namespace FluxGame
+namespace Flux
 {
     public class TestScene : FScene
     {

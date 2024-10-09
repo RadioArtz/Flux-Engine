@@ -1,11 +1,5 @@
-﻿using OpenTK;
-using OpenTK.Input;
-using OpenTK.Mathematics;
-using OpenTK.Input.Hid;
-using OpenTK.Windowing.Common.Input;
+﻿using OpenTK.Mathematics;
 using OpenTK.Windowing.GraphicsLibraryFramework;
-using System;
-using OpenTK.Graphics.OpenGL4;
 using OpenTK.Windowing.Common;
 using Flux.Core;
 
@@ -18,16 +12,13 @@ namespace Flux.Types
         private EngineWindow _window;
         public Vector2 lastPos { get; private set; }
 
-        public void Update(float delta)
-        {
-        }
         public EditorCamera(EngineWindow window)
         {
             _window = window;
         }
-        public void PreRender(float delta)
+        public override void OnTick(float delta)
         {
-            
+            Debug.Log("hi");
             Mouse = _window.MouseState;
             Keyboard = _window.KeyboardState;
             TransformComponent trans = ParentObject.TransformComponent;

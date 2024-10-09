@@ -18,7 +18,7 @@ namespace Flux
         }
         public override void OnTick(float delta)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
     }
 }

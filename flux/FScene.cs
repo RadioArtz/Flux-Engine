@@ -18,6 +18,7 @@ namespace Flux.Types
                     actor.OnTick(delta);
                 else
                     Debug.LogError("Suboptimal implementation of AActrs canEverTick! unneseccary querrying of bool. switch for some other cached solution!");
+                actor.TickComponents(delta);
             }
         }
         public void RegisterActor(AActor actor)
