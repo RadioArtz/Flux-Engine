@@ -19,7 +19,7 @@ namespace Flux.Constants
         /// 0 = Normal; 1 = Minimized; 2 = Maximized; 3 = Fullscreen;
         /// </summary>
         public static int FULLSCREEN_MODE { get; private set; } = 0;
-        public static int MSAA_SAMPLES { get; private set; } = 8;
+        public static int MSAA_SAMPLES { get; private set; } = 32;
 
         public static string SHADER_FALLBACK_FRAG = "Shaders\\fallback.frag";
         public static string SHADER_FALLBACK_VERT = "Shaders\\fallback.vert";

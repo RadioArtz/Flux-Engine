@@ -6,12 +6,12 @@ using Flux.Core;
 
 namespace Flux
 {
-    public static class Program
+    public static class Engine
     {
         private static NativeWindowSettings nativeSettings = NativeWindowSettings.Default;
         private static GameWindowSettings gameSettings = GameWindowSettings.Default;
         public static EngineWindow? window { get; private set; }
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             InitEngine();   
         }

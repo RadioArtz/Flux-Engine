@@ -4,7 +4,7 @@ using OpenTK.Mathematics;
 
 namespace Flux.Core.Rendering
 {
-    internal static class RenderManager
+    public static class RenderManager
     {
         private static Shader _fallbackshader;
         private static List<ShaderRef> _shaders = new List<ShaderRef>();

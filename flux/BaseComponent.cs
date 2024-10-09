@@ -5,6 +5,7 @@ namespace Flux.Types
     {
         private AActor _parentObject;
         public AActor ParentObject => _parentObject;
+        public bool canEverTick = true;
         public BaseComponent()
         {
         }
@@ -13,6 +14,9 @@ namespace Flux.Types
         }
         public virtual void OnComponentDestroyed()
         {
+        }
+        public virtual void OnTick(float delta) 
+        { 
         }
         public void SetParent(AActor newParent)
         {

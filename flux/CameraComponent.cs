@@ -3,7 +3,7 @@ using Flux.Core;
 
 namespace Flux.Types
 {
-    internal class CameraComponent : BaseComponent
+    public class CameraComponent : BaseComponent
     {
         public Matrix4 view { get; private set; }
         public CameraComponent()

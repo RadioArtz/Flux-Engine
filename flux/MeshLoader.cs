@@ -3,7 +3,7 @@ using Flux.Types;
 
 namespace Flux.Core.AssetManagement
 {
-    internal static class MeshLoader
+    public static class MeshLoader
     {
         static List<MeshRef> _meshRefs = new List<MeshRef>();
         static List <StaticMeshAsset> _meshes = new List<StaticMeshAsset>();

@@ -4,27 +4,38 @@ using OpenTK.Windowing.Desktop;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using Flux.Core.Rendering;
 using OpenTK.Mathematics;
-using WinRT;
 using System.Diagnostics;
+using Flux.Types;
 
 namespace Flux.Core
 {
     public class EngineWindow : GameWindow
     {
-        public TestScene tstScn;
+        private FScene _activeScene;
         private Stopwatch _deltaCalc = new Stopwatch();
         private float _deltatime = 0.0f;
+
         public EngineWindow(NativeWindowSettings windowSettingsNative, GameWindowSettings windowSettingsGame) 
                :base(windowSettingsGame, windowSettingsNative)
         {
             Debug.LogEngine("Engine window constructed...");
         }
+
+        public FScene GetActiveScene() { return _activeScene; }
+
+        public void SetActiveScene(FScene scene)
+        {
+            _activeScene = scene;
+            _activeScene.OnLoad();
+            return;
+        }
+
         protected override void OnRenderFrame(FrameEventArgs args)
         {
             base.OnRenderFrame(args);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             
-            tstScn.OnTick(_deltatime);
+            _activeScene?.OnTick(_deltatime);
             RenderManager.Render();
             SwapBuffers();
         }
@@ -36,11 +47,7 @@ namespace Flux.Core
             if (KeyboardState.IsKeyDown(Keys.Escape))
             {
                 Close();
-            }/*
-            if(KeyboardState.IsKeyPressed(Keys.Space))
-            {
-                AudioSystemTMP.PlaySound((IntPtr)0);
-            }*/
+            }
         }
         public void SetShowMouseCursor(CursorState showCursor)
         {
@@ -60,11 +67,9 @@ namespace Flux.Core
             GL.CullFace(CullFaceMode.Back);
             GL.FrontFace(FrontFaceDirection.Ccw);
 
-            tstScn = new TestScene();
-            tstScn.OnLoad();
             GL.ClearColor(0.2f, 0.3f, 0.3f, 1.0f);
             Debug.LogEngine("Engine initialized");
-         }
+        }
         protected override void OnResize(ResizeEventArgs e)
         {
             base.OnResize(e);

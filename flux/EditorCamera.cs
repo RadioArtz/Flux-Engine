@@ -11,7 +11,7 @@ using Flux.Core;
 
 namespace Flux.Types
 {
-    class EditorCamera : BaseComponent
+    public class EditorCamera : BaseComponent
     {
         private MouseState? Mouse;
         private KeyboardState? Keyboard;
