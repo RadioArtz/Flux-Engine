@@ -21,7 +21,7 @@ namespace Flux.Types
             Mouse = _window.MouseState;
             Keyboard = _window.KeyboardState;
             TransformComponent trans = ParentObject.TransformComponent;
-            float movespeed = delta*4;
+            float movespeed = delta*8;
             float sensitivity = .1f;
 
             float deltaX = Mouse.X - lastPos.X;
@@ -38,7 +38,7 @@ namespace Flux.Types
 
             if (Keyboard.IsKeyDown(Keys.LeftShift))
             {
-                movespeed = delta * 96;
+                movespeed = delta * 32;
             }
             if (Keyboard.IsKeyDown(Keys.D))
             {

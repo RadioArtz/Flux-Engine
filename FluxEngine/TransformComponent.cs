@@ -1,11 +1,15 @@
 ﻿using Flux.Core;
 using OpenTK.Mathematics;
+using System.Runtime.CompilerServices;
 
 namespace Flux.Types
 {
     public class TransformComponent : BaseComponent
     {
         public Transform transform;
+        private Vector3 _previousPosition;
+        private Vector3 _velocity;
+        public Vector3 GetVelocity() { return _velocity; }
         public EMobilityType mobilityType = EMobilityType.EMovable;
         Matrix4 ModelMatrixCache;
         public TransformComponent()
@@ -53,11 +57,17 @@ namespace Flux.Types
             
             return model;
         }
-        
+        public override void OnTick(float delta)
+        {
+            _velocity = _previousPosition - transform.Location;
+            _previousPosition = transform.Location;
+        }
     }
     public enum EMobilityType
     {
         EStatic,
         EMovable
     }
+
+    
 }

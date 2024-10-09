@@ -55,6 +55,6 @@ namespace Flux.Core
         /// </summary>
         /// <param name="rotationDeg"> Rotation in Degrees</param>
         /// <returns></returns>
-        public static Vector3 GetUpVector(Vector3 rotationDeg) => Vector3.Normalize(Vector3.Cross(GetRightVector(rotationDeg), GetForwardVector(rotationDeg)));
+        public static Vector3 GetUpVector(this Vector3 rotationDeg) => Vector3.Normalize(Vector3.Cross(GetRightVector(rotationDeg), GetForwardVector(rotationDeg)));
     }
 }
