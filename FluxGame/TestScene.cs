@@ -16,8 +16,8 @@ namespace Flux
             myAwesomeCamera = new QuadActor();
             myAwesomeCamera.AddComponent(new CameraComponent());
             RenderManager.activeCamera = (CameraComponent)myAwesomeCamera.ChildComponents[0];
-            myAwesomeCamera.AddComponent(new EditorCamera(Program.window));
-
+            myAwesomeCamera.AddComponent(new EditorCamera(Engine.window));
+            Debug.Log("Loading Mesh!");
             myAwesomeMesh = MeshLoader.LoadMeshFromFile(@"A:\_Terrain.obj");
             RenderTesterActor = new QuadActor();
             RenderTesterActor.AddComponent(new StaticMeshComponent(MeshLoader.GetMeshAssetFromRef(myAwesomeMesh),false));
