@@ -24,6 +24,7 @@ namespace Flux.Types
                 else
                     Debug.LogError("Suboptimal implementation of BaseComponents canEverTick! unneseccary querrying of bool. switch for some other cached solution!");
             }
+            _transformComponent.OnTick(delta);
         }
         public void AddComponent(BaseComponent Component)
         {

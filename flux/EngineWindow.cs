@@ -14,6 +14,7 @@ namespace Flux.Core
         private FScene _activeScene;
         private Stopwatch _deltaCalc = new Stopwatch();
         private float _deltatime = 0.0f;
+        public Action OnInitializedCallback;
 
         public EngineWindow(NativeWindowSettings windowSettingsNative, GameWindowSettings windowSettingsGame) 
                :base(windowSettingsGame, windowSettingsNative)
@@ -36,6 +37,7 @@ namespace Flux.Core
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             
             _activeScene?.OnTick(_deltatime);
+            _activeScene?.TickActors(_deltatime);
             RenderManager.Render();
             SwapBuffers();
         }
@@ -66,9 +68,9 @@ namespace Flux.Core
             GL.Enable(EnableCap.CullFace);
             GL.CullFace(CullFaceMode.Back);
             GL.FrontFace(FrontFaceDirection.Ccw);
-
             GL.ClearColor(0.2f, 0.3f, 0.3f, 1.0f);
             Debug.LogEngine("Engine initialized");
+            OnInitializedCallback.Invoke();
         }
         protected override void OnResize(ResizeEventArgs e)
         {

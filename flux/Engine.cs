@@ -11,11 +11,13 @@ namespace Flux
         private static NativeWindowSettings nativeSettings = NativeWindowSettings.Default;
         private static GameWindowSettings gameSettings = GameWindowSettings.Default;
         public static EngineWindow? window { get; private set; }
-        public static void Main(string[] args)
+
+        public static void Main(string[] args, Action onInitialized)
         {
-            InitEngine();   
+            InitEngine(onInitialized);
         }
-        static void InitEngine()
+
+        static void InitEngine(Action onInitialized)
         {
             nativeSettings = NativeWindowSettings.Default;
             nativeSettings.ClientSize = new Vector2i(RenderingConfig.RES_X, RenderingConfig.RES_Y);
@@ -26,7 +28,11 @@ namespace Flux
             gameSettings.UpdateFrequency = RenderingConfig.UPDATE_MAX;
 
             window = new EngineWindow(nativeSettings, gameSettings);
+
+            window.OnInitializedCallback = onInitialized;
+
             window.Run();
-        }   
+            Debug.Log("Test");
+        }
     }
 }
