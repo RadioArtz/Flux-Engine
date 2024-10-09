@@ -12,6 +12,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="FluxLogo.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\FluxEngine\FluxEngine.csproj" />
   </ItemGroup>
 
