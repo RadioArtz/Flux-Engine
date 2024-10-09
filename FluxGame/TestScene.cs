@@ -11,7 +11,7 @@ namespace FluxGame
     {
         AActor RenderTesterActor;
         AActor AudioTesterActor;
-        MeshRef myAwesomeMesh;
+        MeshRef terrainMesh;
         MeshRef CubeMesh;
         AActor myAwesomeCamera;
 
@@ -20,19 +20,21 @@ namespace FluxGame
         public override void OnLoad()
         {
             base.OnLoad();
-            myAwesomeCamera = new QuadActor();
+            myAwesomeCamera = new BasicActor();
             myAwesomeCamera.AddComponent(new CameraComponent());
             RenderManager.activeCamera = (CameraComponent)myAwesomeCamera.ChildComponents[0];
             myAwesomeCamera.AddComponent(new EditorCamera(Engine.window));
-            Debug.Log("Loading Mesh!");
-            //myAwesomeMesh = MeshLoader.LoadMeshFromFile(@"A:\_Terrain.obj");
-            //RenderTesterActor = new QuadActor();
-            //RenderTesterActor.AddComponent(new StaticMeshComponent(MeshLoader.GetMeshAssetFromRef(myAwesomeMesh),new WhiteMat()));
+            Debug.Log("Loading Terrain!");
 
-            AudioTesterActor = new QuadActor();
+            terrainMesh = MeshLoader.LoadMeshFromFile(@"A:\_Terrain.obj");
+            RenderTesterActor = new BasicActor();
+            RenderTesterActor.AddComponent(new StaticMeshComponent(MeshLoader.GetMeshAssetFromRef(terrainMesh),new WhiteMat()));
+
+            AudioTesterActor = new BasicActor();
             CubeMesh = MeshLoader.LoadMeshFromFile("A:/Goober.obj");
             AudioTesterActor.AddComponent(new StaticMeshComponent(MeshLoader.GetMeshAssetFromRef(CubeMesh), new WhiteMat()));
-            AudioTesterActor.AddComponent(new AudioSource());
+            AudioTesterActor.AddComponent(new AudioSource("A:/dealermono.wav",EAudioMode.Audio3D));
+
             ((AudioSource)AudioTesterActor.ChildComponents[AudioTesterActor.ChildComponents.Count - 1]).Init();
         }
         public override void OnTick(float delta)
