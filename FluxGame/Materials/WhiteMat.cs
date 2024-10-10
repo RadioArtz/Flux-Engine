@@ -18,7 +18,7 @@ namespace FluxGame.Materials
         public override void Render(TransformComponent inTransform)
         {
             _shader.SetVector4("color", new OpenTK.Mathematics.Vector4(1));
-            _shader.SetFloat("yScale", ((TestScene)Engine.window.GetActiveScene()).scaley);
+            _shader.SetFloat("yScale", 1);
             base.Render(inTransform);
         }
     }

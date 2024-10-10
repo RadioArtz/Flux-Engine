@@ -4,7 +4,7 @@ using OpenTK.Mathematics;
 
 namespace Flux.Types
 {
-    public class AudioSource : BaseComponent
+    public class AudioSourceComponent : BaseComponent
     {
         private int handle = -1;
         private int channel = -1;
@@ -30,18 +30,18 @@ namespace Flux.Types
         public bool _shouldLoop = false;
         #endregion
 
-        public AudioSource(string filePath) 
+        public AudioSourceComponent(string filePath) 
         {
             _filePath = filePath;
             Init(); 
         }
-        public AudioSource(string filePath, EAudioMode audioMode = EAudioMode.Audio2D) 
+        public AudioSourceComponent(string filePath, EAudioMode audioMode = EAudioMode.Audio2D) 
         {
             _filePath = filePath;
             _audioMode = audioMode; 
             Init(); 
         }
-        public AudioSource(string filePath, bool autoplay=true, float maxDistance = 128, float falloff = 1, float dopplerLevel = 1, EAudioMode audioMode = EAudioMode.Audio3D, bool shouldLoop = false) 
+        public AudioSourceComponent(string filePath, bool autoplay=true, float maxDistance = 128, float falloff = 1, float dopplerLevel = 1, EAudioMode audioMode = EAudioMode.Audio3D, bool shouldLoop = false) 
         { 
             _filePath = filePath;
             _autoplay = autoplay;
