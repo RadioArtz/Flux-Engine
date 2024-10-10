@@ -4,7 +4,6 @@ using Flux.Core.Rendering;
 using Flux.Types;
 using Flux;
 using FluxGame.Materials;
-using Flux.Types;
 
 namespace FluxGame
 {
@@ -35,7 +34,7 @@ namespace FluxGame
             AudioTesterActor = new BasicActor();
             cubeMesh = MeshLoader.LoadMeshFromFile("A:/Goober.obj");
             AudioTesterActor.AddComponent(new StaticMeshComponent(MeshLoader.GetMeshAssetFromRef(cubeMesh), new WhiteMat()));
-            AudioTesterActor.AddComponent(new AudioSource("A:/dealermono.wav",EAudioMode.Audio3D));
+            AudioTesterActor.AddComponent(new AudioSourceComponent("A:/dealermono.wav",true,128,1,10,EAudioMode.Audio3D,true));
         }
 
         public override void OnTick(float delta)
@@ -43,8 +42,9 @@ namespace FluxGame
             base.OnTick(delta);
             totalTime += delta;
             float tmpCalcThing = 1/(60f / 135f);
-            float sineThing = (MathF.Sin(2*MathF.PI*tmpCalcThing*totalTime)+1)/2;
-            scaley = MathExt.Lerp(0.75f, 1.25f, sineThing);
+            float sineThing = (MathF.Sin(2*MathF.PI*tmpCalcThing*totalTime/2f));
+            scaley = MathExt.Lerp(0.75f, 1.25f, MathF.Abs(sineThing));
+            AudioTesterActor.TransformComponent.transform.Scale = new OpenTK.Mathematics.Vector3(1+(1-scaley), scaley, 1 + (1 - scaley));
         }
     }
 }
