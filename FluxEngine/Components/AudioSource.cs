@@ -8,15 +8,26 @@ namespace Flux.Types
     {
         private int handle = -1;
         private int channel = -1;
-        private bool initialized = false;
+        private bool _initialized = false;
 
         #region settings
         public bool _autoplay = true;
         public string _filePath = "A:/dealermono.wav";
         public EAudioMode _audioMode = EAudioMode.Audio2D;
         public float _maxDistance = 128;
+        /// <summary>
+        /// Strength of audio falloff. Higher values correspond to faster falloff.
+        /// 1 = Real world falloff
+        /// 2 = 2x real world falloff
+        /// Max value: 10
+        /// </summary>
         public float _falloff = 1;
+        /// <summary>
+        /// Strength of the doppler effect. 
+        /// Max value: 10
+        /// </summary>
         public float _dopplerLevel = 1;
+        public bool _shouldLoop = false;
         #endregion
 
         public AudioSource(string filePath) 
@@ -30,7 +41,7 @@ namespace Flux.Types
             _audioMode = audioMode; 
             Init(); 
         }
-        public AudioSource(string filePath, bool autoplay=true, float maxDistance = 128, float falloff = 1, float dopplerLevel = 1, EAudioMode audioMode = EAudioMode.Audio3D) 
+        public AudioSource(string filePath, bool autoplay=true, float maxDistance = 128, float falloff = 1, float dopplerLevel = 1, EAudioMode audioMode = EAudioMode.Audio3D, bool shouldLoop = false) 
         { 
             _filePath = filePath;
             _autoplay = autoplay;
@@ -38,12 +49,13 @@ namespace Flux.Types
             _falloff = falloff;
             _dopplerLevel = dopplerLevel;
             _audioMode = audioMode;
+            _shouldLoop = shouldLoop;
             Init();
         }
 
         public void Init()
         {
-            if(Engine.activeAudioListener == null)
+            if (Engine.activeAudioListener == null)
             {
                 Debug.LogError("NO ACTIVE AUDIO LISTENER! 3D Audio will NOT work! Forcing source to be 2D...");
                 _audioMode = EAudioMode.Audio2D;
@@ -55,11 +67,17 @@ namespace Flux.Types
                 return;
             }
 
-            if(_audioMode== EAudioMode.Audio3D)
-                handle = Bass.BASS_SampleLoad(_filePath, 0, 0, 1, BASSFlag.BASS_SAMPLE_3D);
+            BASSFlag sampleFlag;
+            if (_audioMode == EAudioMode.Audio3D)
+            {
+                sampleFlag = BASSFlag.BASS_SAMPLE_3D;
+            }
             else
-                handle = Bass.BASS_SampleLoad(_filePath, 0, 0, 1, BASSFlag.BASS_DEFAULT);
+            {
+                sampleFlag = BASSFlag.BASS_DEFAULT;
+            }
 
+            handle = Bass.BASS_SampleLoad(_filePath, 0, 0, 1, sampleFlag);
             if (handle == 0)
             {
                 Debug.LogError("Sample load failed with error: " + Bass.BASS_ErrorGetCode());
@@ -74,15 +92,29 @@ namespace Flux.Types
             }
 
             if (_audioMode == EAudioMode.Audio3D)
+            {
                 Bass.BASS_ChannelSet3DAttributes(channel, BASS3DMode.BASS_3DMODE_NORMAL, -1, -1, -1, -1, -1);
+            }
             else
+            {
                 Bass.BASS_ChannelSet3DAttributes(channel, BASS3DMode.BASS_3DMODE_OFF, -1, -1, -1, -1, -1);
+            }
 
             Bass.BASS_Set3DFactors(_maxDistance, _falloff, _dopplerLevel);
 
+            if (_shouldLoop)
+            {
+                Bass.BASS_ChannelFlags(channel, BASSFlag.BASS_SAMPLE_LOOP, BASSFlag.BASS_SAMPLE_LOOP);
+            }
+
+            _initialized = true;
+
             if (_autoplay)
+            {
                 Play();
+            }
         }
+
 
         public void Play()
         {
@@ -94,35 +126,41 @@ namespace Flux.Types
 
         public override void OnTick(float delta)
         {
-            if (!initialized)
+            if (!_initialized || _audioMode == EAudioMode.Audio2D)
                 return;
+
             Transform listenerTransform = Engine.activeAudioListener.GetTransform();
             Vector3 listenerVelocity = Engine.activeAudioListener.GetVelocity();
 
-            if (_audioMode == EAudioMode.Audio2D) 
-                return;
-            BASS_3DVECTOR listenerPosition = new BASS_3DVECTOR(listenerTransform.Location.X, listenerTransform.Location.Y, listenerTransform.Location.Z);
-            BASS_3DVECTOR listenerFront = new BASS_3DVECTOR(
-                listenerTransform.Rotation.GetForwardVector().X * -1,
-                listenerTransform.Rotation.GetForwardVector().Y * -1,
-                listenerTransform.Rotation.GetForwardVector().Z * -1);
-            BASS_3DVECTOR listenerTop = new BASS_3DVECTOR(
-                listenerTransform.Rotation.GetUpVector().X,
-                listenerTransform.Rotation.GetUpVector().Y,
-                listenerTransform.Rotation.GetUpVector().Z);
-            BASS_3DVECTOR listenerVelo = new BASS_3DVECTOR(
-                listenerVelocity.X,
-                listenerVelocity.Y,
-                listenerVelocity.Z);
-            Bass.BASS_Set3DPosition(listenerPosition, listenerVelo, listenerFront, listenerTop);
+            BASS_3DVECTOR listenerPosition = ToBassVector(listenerTransform.Location);
+            BASS_3DVECTOR listenerForward = ToBassVector(listenerTransform.Rotation.GetForwardVector() * -1);
+            BASS_3DVECTOR listenerUp = ToBassVector(listenerTransform.Rotation.GetUpVector());
+            BASS_3DVECTOR listenerVelocityVec = ToBassVector(listenerVelocity);
 
-            Vector3 objPos = ParentObject.TransformComponent.transform.Location;
-            BASS_3DVECTOR soundPosition = new BASS_3DVECTOR(objPos.X, objPos.Y, objPos.Z);
-            //Implement velocity for obj here!!
-            Bass.BASS_ChannelSet3DPosition(channel, soundPosition, null, null);
-            
+            Bass.BASS_Set3DPosition(listenerPosition, listenerVelocityVec, listenerForward, listenerUp);
+
+            Vector3 objPosition = ParentObject.TransformComponent.transform.Location;
+            Vector3 objVelocity = ParentObject.TransformComponent.GetVelocity();
+
+            BASS_3DVECTOR soundPosition = ToBassVector(objPosition);
+            BASS_3DVECTOR soundVelocity = ToBassVector(objVelocity);
+
+            Bass.BASS_ChannelSet3DPosition(channel, soundPosition, null, soundVelocity);
+
+            Bass.BASS_Set3DFactors(_maxDistance, _falloff, _dopplerLevel);
             Bass.BASS_Apply3D();
         }
+
+        /// <summary>
+        /// Convert OpenTK.Mathematics.Vector3 to BASS_3DVECTOR
+        /// </summary>
+        /// <param name="vec"></param>
+        /// <returns></returns>
+        private BASS_3DVECTOR ToBassVector(Vector3 vec)
+        {
+            return new BASS_3DVECTOR(vec.X, vec.Y, vec.Z);
+        }
+
     }
     public enum EAudioMode
     {
