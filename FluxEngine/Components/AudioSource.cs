@@ -8,6 +8,7 @@ namespace Flux.Types
     {
         private int handle = -1;
         private int channel = -1;
+        private bool initialized = false;
 
         #region settings
         public bool _autoplay = true;
@@ -40,12 +41,17 @@ namespace Flux.Types
             Init();
         }
 
-
         public void Init()
         {
+            if(Engine.activeAudioListener == null)
+            {
+                Debug.LogError("NO ACTIVE AUDIO LISTENER! 3D Audio will NOT work! Forcing source to be 2D...");
+                _audioMode = EAudioMode.Audio2D;
+            }
+
             if (!Bass.BASS_Init(-1, 44100, BASSInit.BASS_DEVICE_DEFAULT, IntPtr.Zero))
             {
-                Console.WriteLine("BASS initialization failed with error: " + Bass.BASS_ErrorGetCode());
+                Debug.LogError("BASS initialization failed with error: " + Bass.BASS_ErrorGetCode());
                 return;
             }
 
@@ -56,14 +62,14 @@ namespace Flux.Types
 
             if (handle == 0)
             {
-                Console.WriteLine("Sample load failed with error: " + Bass.BASS_ErrorGetCode());
+                Debug.LogError("Sample load failed with error: " + Bass.BASS_ErrorGetCode());
                 return;
             }
 
             channel = Bass.BASS_SampleGetChannel(handle, BASSFlag.BASS_DEFAULT);
             if (channel == 0)
             {
-                Console.WriteLine("Failed to get channel with error: " + Bass.BASS_ErrorGetCode());
+                Debug.LogError("Failed to get channel with error: " + Bass.BASS_ErrorGetCode());
                 return;
             }
 
@@ -81,11 +87,16 @@ namespace Flux.Types
         {
             if (!Bass.BASS_ChannelPlay(channel, false))
             {
-                Console.WriteLine("Channel play failed with error: " + Bass.BASS_ErrorGetCode());
+                Debug.LogError("Channel play failed with error: " + Bass.BASS_ErrorGetCode());
             }
         }
-        public void Update(Transform listenerTransform,Vector3 velocity)
+        public override void OnTick(float delta)
         {
+            if (!initialized)
+                return;
+            Transform listenerTransform = Engine.activeAudioListener.GetTransform();
+            Vector3 velocity = Engine.activeAudioListener.GetVelocity();
+
             if (_audioMode == EAudioMode.Audio2D) 
                 return;
             BASS_3DVECTOR listenerPosition = new BASS_3DVECTOR(listenerTransform.Location.X, listenerTransform.Location.Y, listenerTransform.Location.Z);

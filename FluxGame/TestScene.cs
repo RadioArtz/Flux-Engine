@@ -4,6 +4,7 @@ using Flux.Core.Rendering;
 using Flux.Types;
 using Flux;
 using FluxGame.Materials;
+using FluxEngine.Types;
 
 namespace FluxGame
 {
@@ -24,6 +25,7 @@ namespace FluxGame
             myAwesomeCamera.AddComponent(new CameraComponent());
             RenderManager.activeCamera = (CameraComponent)myAwesomeCamera.ChildComponents[0];
             myAwesomeCamera.AddComponent(new EditorCamera(Engine.window));
+            //myAwesomeCamera.AddComponent(new AudioListenerComponent());
             Debug.Log("Loading Terrain!");
 
             terrainMesh = MeshLoader.LoadMeshFromFile(@"A:\_Terrain.obj");
@@ -35,7 +37,7 @@ namespace FluxGame
             AudioTesterActor.AddComponent(new StaticMeshComponent(MeshLoader.GetMeshAssetFromRef(CubeMesh), new WhiteMat()));
             AudioTesterActor.AddComponent(new AudioSource("A:/dealermono.wav",EAudioMode.Audio3D));
 
-            ((AudioSource)AudioTesterActor.ChildComponents[AudioTesterActor.ChildComponents.Count - 1]).Init();
+           // ((AudioSource)AudioTesterActor.ChildComponents[AudioTesterActor.ChildComponents.Count - 1]).Init();
         }
         public override void OnTick(float delta)
         {
@@ -44,7 +46,6 @@ namespace FluxGame
             float tmpCalcThing = 1/(60f / 135f);
             float sineThing = (MathF.Sin(2*MathF.PI*tmpCalcThing*totalTime)+1)/2;
             scaley = MathExt.Lerp(0.75f, 1.25f, sineThing);
-            ((AudioSource)AudioTesterActor.ChildComponents[AudioTesterActor.ChildComponents.Count - 1]).Update(myAwesomeCamera.TransformComponent.transform, myAwesomeCamera.TransformComponent.GetVelocity());
         }
     }
 }

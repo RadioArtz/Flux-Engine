@@ -3,6 +3,7 @@ using OpenTK.Windowing.Desktop;
 using Flux.Constants;
 using OpenTK.Windowing.Common;
 using Flux.Core;
+using FluxEngine.Types;
 
 namespace Flux
 {
@@ -11,6 +12,7 @@ namespace Flux
         private static NativeWindowSettings nativeSettings = NativeWindowSettings.Default;
         private static GameWindowSettings gameSettings = GameWindowSettings.Default;
         public static EngineWindow? window { get; private set; }
+        public static AudioListenerComponent? activeAudioListener;
 
         public static void Main(string[] args, Action onInitialized)
         {
