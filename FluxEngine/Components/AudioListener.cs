@@ -2,7 +2,7 @@
 using Flux.Types;
 using OpenTK.Mathematics;
 
-namespace FluxEngine.Types
+namespace Flux.Types
 {
     public class AudioListenerComponent : BaseComponent
     {

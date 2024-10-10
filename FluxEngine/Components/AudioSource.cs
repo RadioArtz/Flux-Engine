@@ -83,6 +83,7 @@ namespace Flux.Types
             if (_autoplay)
                 Play();
         }
+
         public void Play()
         {
             if (!Bass.BASS_ChannelPlay(channel, false))
@@ -90,12 +91,13 @@ namespace Flux.Types
                 Debug.LogError("Channel play failed with error: " + Bass.BASS_ErrorGetCode());
             }
         }
+
         public override void OnTick(float delta)
         {
             if (!initialized)
                 return;
             Transform listenerTransform = Engine.activeAudioListener.GetTransform();
-            Vector3 velocity = Engine.activeAudioListener.GetVelocity();
+            Vector3 listenerVelocity = Engine.activeAudioListener.GetVelocity();
 
             if (_audioMode == EAudioMode.Audio2D) 
                 return;
@@ -109,9 +111,9 @@ namespace Flux.Types
                 listenerTransform.Rotation.GetUpVector().Y,
                 listenerTransform.Rotation.GetUpVector().Z);
             BASS_3DVECTOR listenerVelo = new BASS_3DVECTOR(
-                velocity.X,
-                velocity.Y,
-                velocity.Z);
+                listenerVelocity.X,
+                listenerVelocity.Y,
+                listenerVelocity.Z);
             Bass.BASS_Set3DPosition(listenerPosition, listenerVelo, listenerFront, listenerTop);
 
             Vector3 objPos = ParentObject.TransformComponent.transform.Location;

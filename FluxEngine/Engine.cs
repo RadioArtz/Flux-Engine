@@ -3,7 +3,7 @@ using OpenTK.Windowing.Desktop;
 using Flux.Constants;
 using OpenTK.Windowing.Common;
 using Flux.Core;
-using FluxEngine.Types;
+using Flux.Types;
 
 namespace Flux
 {
