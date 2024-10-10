@@ -70,7 +70,7 @@ namespace Flux.Types
             BASSFlag sampleFlag;
             if (_audioMode == EAudioMode.Audio3D)
             {
-                sampleFlag = BASSFlag.BASS_SAMPLE_3D;
+                sampleFlag = BASSFlag.BASS_SAMPLE_3D | BASSFlag.BASS_SAMPLE_MONO;
             }
             else
             {
@@ -90,7 +90,7 @@ namespace Flux.Types
                 Debug.LogError("Failed to get channel with error: " + Bass.BASS_ErrorGetCode());
                 return;
             }
-
+            
             if (_audioMode == EAudioMode.Audio3D)
             {
                 Bass.BASS_ChannelSet3DAttributes(channel, BASS3DMode.BASS_3DMODE_NORMAL, -1, -1, -1, -1, -1);
