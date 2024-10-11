@@ -34,7 +34,7 @@ namespace FluxGame
             AudioTesterActor = new BasicActor();
             cubeMesh = MeshLoader.LoadMeshFromFile("A:/Goober.obj");
             AudioTesterActor.AddComponent(new StaticMeshComponent(MeshLoader.GetMeshAssetFromRef(cubeMesh), new WhiteMat()));
-            AudioTesterActor.AddComponent(new AudioSourceComponent("A:/dealermono.wav",true,128,1,10,EAudioMode.Audio3D,true));
+            AudioTesterActor.AddComponent(new AudioSourceComponent("A:/Big Fat wip.wav", true,128,1,10,EAudioMode.Audio3D,true));
         }
 
         public override void OnTick(float delta)
