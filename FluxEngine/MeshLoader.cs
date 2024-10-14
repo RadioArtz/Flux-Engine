@@ -18,17 +18,21 @@ namespace Flux.Core.AssetManagement
             }
             Debug.LogEngine(loadedCheck);
             var assimpContext = new AssimpContext();
-            var assimpScene = assimpContext.ImportFile(filePath, PostProcessSteps.GenerateNormals | PostProcessSteps.GenerateUVCoords | PostProcessSteps.Triangulate | PostProcessSteps.FindInvalidData | PostProcessSteps.OptimizeMeshes | PostProcessSteps.ImproveCacheLocality | PostProcessSteps.JoinIdenticalVertices);
+            var assimpScene = assimpContext.ImportFile(filePath, PostProcessSteps.GenerateNormals | PostProcessSteps.GenerateUVCoords | PostProcessSteps.Triangulate | PostProcessSteps.FindInvalidData | PostProcessSteps.OptimizeMeshes | PostProcessSteps.ImproveCacheLocality | PostProcessSteps.JoinIdenticalVertices | PostProcessSteps.PreTransformVertices);
 
-            //This needs to be expanded to handle more than the first mesh in the assimp scene!
-            //Will need to update StaticMeshAsset for this
-            Debug.LogError("Only loading first mesh from assimp scene! Handle full assimpscene later (MeshLoader & Static Mesh Asset!)");
-            float[] tmpVerts = ConvertVertecies(assimpScene.Meshes[0], false, false, 0);
-            float[] tmpUvs = ConvertUVCoords(assimpScene.Meshes[0],0);
-            float[] tmpNormals = ConvertNormals(assimpScene.Meshes[0]);
-            uint[] tmpIndecies = ConvertIndecies(assimpScene.Meshes[0]);
+            MeshData[] tmpMeshData = new MeshData[assimpScene.MeshCount];
+            for(int i = 0; i < assimpScene.Meshes.Count; i++)
+            {
+                Mesh tmpMesh = assimpScene.Meshes[i];
+                float[] tmpVerts = ConvertVertecies(tmpMesh, false, false, 0);
+                float[] tmpUvs = ConvertUVCoords(tmpMesh, 0);
+                float[] tmpNormals = ConvertNormals(tmpMesh);
+                uint[] tmpIndecies = ConvertIndecies(tmpMesh);
+                tmpMeshData[i] = new MeshData(tmpVerts, tmpNormals, tmpUvs, tmpIndecies);
+            }
+            
 
-            StaticMeshAsset tmpAsset = new StaticMeshAsset(tmpVerts, tmpNormals, tmpUvs, tmpIndecies, filePath);
+            StaticMeshAsset tmpAsset = new StaticMeshAsset(tmpMeshData, filePath);
             _meshes.Add(tmpAsset);
             MeshRef _tmpRef = RegisterMeshAsset(filePath, _meshes.Count - 1);
             return _tmpRef;

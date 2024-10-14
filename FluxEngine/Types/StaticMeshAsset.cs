@@ -11,27 +11,38 @@ namespace Flux.Types
             _meshIndex = index;
         }
     }
-    public struct StaticMeshAsset
+    public class MeshData
     {
-        public StaticMeshAsset(float[] verts, float[] normals, float[] uvs, uint[] indices, string path)
+        public MeshData(float[] verts, float[] normals, float[] uvs, uint[] indices)
         {
-            _path = path;   
             _vertices = verts;
             _indices = indices;
             _normals = normals;
             _uvCoords = uvs;
         }
 
-        string _path;
-        float[] _vertices = {};
-        float[] _uvCoords = {};
-        float[] _normals = {};
+        float[] _vertices = { };
+        float[] _uvCoords = { };
+        float[] _normals = { };
         uint[] _indices;
 
-        public string FilePath { get => _path; }
         public float[] Vertices { get => _vertices; }
-        public uint[] Indices { get => _indices; } 
+        public uint[] Indices { get => _indices; }
         public float[] UVCoords { get => _uvCoords; }
         public float[] Normals { get => _normals; }
+    }
+    public struct StaticMeshAsset
+    {
+        public StaticMeshAsset(MeshData[] meshes, string path)
+        {
+            _path = path;
+            _meshes = meshes;
+        }
+
+        string _path;
+        MeshData[] _meshes = { };
+
+        public string FilePath { get => _path; }
+        public MeshData[] Meshes { get => _meshes; }
     }
 }
