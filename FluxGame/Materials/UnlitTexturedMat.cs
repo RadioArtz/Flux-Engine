@@ -8,11 +8,11 @@ namespace FluxGame.Materials
         public UnlitTexturedMat() { Compile(); }
         public override string getVertShaderPath()
         {
-            return "Shaders\\unlit_textured.vert";
+            return Path.Combine("Shaders", "unlit_textured.vert");
         }
         public override string getFragShaderPath()
         {
-            return "Shaders\\unlit_textured.frag";
+            return Path.Combine("Shaders", "unlit_textured.frag");
         }
         public override void Render(TransformComponent inTransform)
         {

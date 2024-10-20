@@ -9,11 +9,11 @@ namespace FluxGame.Materials
         public WhiteMat() { Compile(); }
         public override string getVertShaderPath()
         {
-            return "Shaders\\main.vert";
+            return Path.Combine("Shaders", "main.vert");
         }
         public override string getFragShaderPath()
         {
-            return "Shaders\\main.frag";
+            return Path.Combine("Shaders", "main.frag");
         }
         public override void Render(TransformComponent inTransform)
         {

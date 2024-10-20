@@ -1,9 +1,9 @@
-#version 330 core
-in vec3 aPos;
-in vec2 aTexCoord;
+#version 410 core
+layout(location = 0) in vec3 aPos;
+layout(location = 1) in vec2 aTexCoord;
 
-out vec3 FragPos;
-out vec2 texCoord;
+layout(location = 1) out vec3 FragPos;
+layout(location = 0) out vec2 texCoord;
 
 uniform mat4 model;
 uniform mat4 view;
