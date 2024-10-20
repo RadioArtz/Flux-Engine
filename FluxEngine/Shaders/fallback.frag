@@ -1,5 +1,5 @@
 ﻿#version 410 core
-out vec4 FragColor;
+layout(location = 0) out vec4 FragColor;
 
 void main()
 {

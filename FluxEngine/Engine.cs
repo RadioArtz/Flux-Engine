@@ -27,6 +27,13 @@ namespace Flux
             nativeSettings.WindowState = (WindowState)RenderingConfig.FULLSCREEN_MODE;
             nativeSettings.NumberOfSamples = RenderingConfig.MSAA_SAMPLES;
             nativeSettings.Title = "Flux Engine";
+            // shaders use gl 4.1 core, so force a minimum of 4.1
+            // this is also the last version that will run on MacOS
+            nativeSettings.APIVersion = new Version(4, 1);
+            // GLES is nice, but this engine is core gl only right now
+            nativeSettings.API = ContextAPI.OpenGL;
+            // Force OpenGL Core
+            nativeSettings.Profile = ContextProfile.Core;
             gameSettings.UpdateFrequency = RenderingConfig.UPDATE_MAX;
 
             window = new EngineWindow(nativeSettings, gameSettings);
