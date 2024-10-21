@@ -40,5 +40,31 @@ namespace Flux.Types
         {
             _childComponents.RemoveAt(Index);
         }
+
+        public BaseComponent GetComponent<BaseComponent>()
+        {
+            for (int i = 0; i < ChildComponents.Count; i++)
+            {
+                if (ChildComponents[i].GetType().Equals(typeof(BaseComponent)))
+                {
+                    return (BaseComponent)((object)ChildComponents[i]);
+                }
+            }
+            return (BaseComponent)((object)null);
+        }
+
+        public BaseComponent[] GetComponents<BaseComponent>()
+        {
+            List<BaseComponent> comps = new List<BaseComponent>();
+
+            for (int i = 0; i < ChildComponents.Count; ++i)
+            {
+                if (ChildComponents[i].GetType().Equals(typeof(BaseComponent)))
+                {
+                    comps.Add((BaseComponent)((object)ChildComponents[i]));
+                }
+            }
+            return comps.ToArray();
+        }
     }
 }
