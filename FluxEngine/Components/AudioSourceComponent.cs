@@ -161,6 +161,19 @@ namespace Flux.Types
             return new BASS_3DVECTOR(vec.X, vec.Y, vec.Z);
         }
 
+        public double GetCurrentPositionSeconds()
+        {
+            if (channel == 0)
+            {
+                Debug.LogError("Channel is not initialized.");
+                return -1;
+            }
+
+            long positionBytes = Bass.BASS_ChannelGetPosition(channel);
+            double positionSeconds = Bass.BASS_ChannelBytes2Seconds(channel, positionBytes);
+
+            return positionSeconds;
+        }
     }
     public enum EAudioMode
     {
