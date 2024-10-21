@@ -1,8 +1,6 @@
 ﻿using OpenTK.Graphics.OpenGL4;
 using Flux.Core.Rendering;
 using Flux.Core.AssetManagement;
-using static Flux.Types.StaticMeshComponent;
-using Flux.Core.Rendering;
 
 namespace Flux.Types
 {
@@ -11,11 +9,25 @@ namespace Flux.Types
         MeshRef _internalMeshRef;
         public SubMesh[] subMeshes;
         private Material _material;
-        public StaticMeshComponent(MeshRef _meshRef, Material material)
+        public StaticMeshComponent(MeshRef inMeshRef, Material inMaterial)
         {
-            _material = material;
-            _internalMeshRef = _meshRef;
-            GenerateSubMeshes(MeshLoader.GetMeshAssetFromRef(_meshRef));
+            _material = inMaterial;
+            _internalMeshRef = inMeshRef;
+            GenerateSubMeshes(MeshLoader.GetMeshAssetFromRef(inMeshRef));
+            RenderManager.RegisterStaticMeshComponent(this);
+        }
+        /// <summary>
+        /// Initialize the StaticMesh with custom mesh data.
+        /// </summary>
+        /// <param name="inMeshData"></param>
+        /// <param name="inMaterial"></param>
+        public StaticMeshComponent(MeshData inMeshData, Material inMaterial)
+        {
+            _material = inMaterial;
+            MeshData[] tmpMeshData = new MeshData[1];
+            tmpMeshData[0] = inMeshData;
+            StaticMeshAsset tmpAsset = new StaticMeshAsset(tmpMeshData, "internal");
+            GenerateSubMeshes(tmpAsset);
             RenderManager.RegisterStaticMeshComponent(this);
         }
         public void GenerateSubMeshes(StaticMeshAsset meshAsset)
@@ -24,6 +36,7 @@ namespace Flux.Types
             for(int i = 0; i < meshAsset.Meshes.Length; i++)
             {
                 subMeshes[i] = new SubMesh(meshAsset.Meshes[i], _material, this);
+                Flux.Core.Debug.LogEngine("submeshAdded");
             }
         }
         public void Render()
@@ -40,14 +53,14 @@ namespace Flux.Types
             private int VertexArrayObject;
             private int ElementBufferObject;
 
-            private int indicesCount;
+            private int _indicesCount;
 
             private StaticMeshComponent _smc;
             public SubMesh(MeshData meshData, Material mat, StaticMeshComponent staticMeshCompRef)
             {
                 _smc = staticMeshCompRef;
                 _material = mat;
-                indicesCount = meshData.Indices.Length;
+                _indicesCount = meshData.Indices.Length;
 
                 float[] mergedMeshData = MergedMeshArray(meshData.Vertices, meshData.UVCoords, meshData.Normals);
 
@@ -62,7 +75,7 @@ namespace Flux.Types
                 GL.VertexAttribPointer(vertPosLocation, 3, VertexAttribPointerType.Float, false, 8 * sizeof(float), 0);
                 GL.EnableVertexAttribArray(vertPosLocation);
 
-                int texCoordLocation = _material._shader.GetAttribLocation("aTexCoord");
+                int texCoordLocation = _material._shader.GetAttribLocation("aTextureCoords");
                 GL.VertexAttribPointer(texCoordLocation, 2, VertexAttribPointerType.Float, false, 8 * sizeof(float), 3 * sizeof(float));
                 GL.EnableVertexAttribArray(texCoordLocation);
 
@@ -72,7 +85,7 @@ namespace Flux.Types
 
                 ElementBufferObject = GL.GenBuffer();
                 GL.BindBuffer(BufferTarget.ElementArrayBuffer, ElementBufferObject);
-                GL.BufferData(BufferTarget.ElementArrayBuffer, indicesCount * sizeof(uint), meshData.Indices, BufferUsageHint.StaticDraw);
+                GL.BufferData(BufferTarget.ElementArrayBuffer, _indicesCount * sizeof(uint), meshData.Indices, BufferUsageHint.StaticDraw);
 
                 _material._shader.Use();
 
@@ -81,7 +94,7 @@ namespace Flux.Types
             {
                 GL.BindVertexArray(VertexArrayObject);
                 _material.Render(_smc.ParentObject.TransformComponent);
-                GL.DrawElements(PrimitiveType.Triangles, indicesCount, DrawElementsType.UnsignedInt, 0);
+                GL.DrawElements(PrimitiveType.Triangles, _indicesCount, DrawElementsType.UnsignedInt, 0);
             }
 
             private float[] MergedMeshArray(float[] verts, float[] uvs, float[] normals)
