@@ -1,6 +1,6 @@
 ﻿using Flux.Core;
 using OpenTK.Mathematics;
-using System.Runtime.CompilerServices;
+
 
 namespace Flux.Types
 {
@@ -10,12 +10,14 @@ namespace Flux.Types
         private Vector3 _previousPosition;
         private Vector3 _velocity;
         public Vector3 GetVelocity() { return _velocity; }
-        public EMobilityType mobilityType = EMobilityType.EMovable;
+        public EMobilityType mobilityType = EMobilityType.Movable;
         Matrix4 ModelMatrixCache;
         public TransformComponent()
         {
             transform.Scale = new Vector3(1, 1, 1);
-            if (mobilityType == EMobilityType.EStatic)
+            _velocity = new Vector3(0);
+            _previousPosition = transform.Location;
+            if (mobilityType == EMobilityType.Static)
             {
                 GetModelMatrix(true);
                 Debug.Log("Creating static model matrix...", ConsoleColor.DarkCyan);
@@ -24,7 +26,7 @@ namespace Flux.Types
         public TransformComponent(Transform initTransform)
         {
             transform = initTransform;
-            if (mobilityType == EMobilityType.EStatic)
+            if (mobilityType == EMobilityType.Static)
             {
                 GetModelMatrix(true);
                 Debug.Log("Creating static model matrix...", ConsoleColor.DarkCyan);
@@ -32,13 +34,8 @@ namespace Flux.Types
         }
         public Matrix4 GetModelMatrix(bool overrideStatic = false)
         {
-            if (mobilityType == EMobilityType.EStatic && !overrideStatic)
-            {/*
-                if (ModelMatrixCache == null)
-                {
-                    GetModelMatrix(true);
-                    Debug.Log("Creating static model matrix...", ConsoleColor.DarkCyan);
-                } */
+            if (mobilityType == EMobilityType.Static && !overrideStatic)
+            {
                 return ModelMatrixCache;
             }
 
@@ -54,7 +51,6 @@ namespace Flux.Types
             model *= Matrix4.CreateScale(transform.Scale);
             model *= Matrix4.CreateTranslation(transform.Location);
             ModelMatrixCache = model;
-            
             return model;
         }
         public override void OnTick(float delta)
@@ -65,9 +61,7 @@ namespace Flux.Types
     }
     public enum EMobilityType
     {
-        EStatic,
-        EMovable
+        Static,
+        Movable
     }
-
-    
 }
