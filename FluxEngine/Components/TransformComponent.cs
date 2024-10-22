@@ -58,6 +58,30 @@ namespace Flux.Types
             _velocity = _previousPosition - transform.Location;
             _previousPosition = transform.Location;
         }
+        public float DistanceTo(TransformComponent other)
+        {
+            return (transform.Location - other.transform.Location).Length;
+        }
+        public float DistanceTo(AActor other)
+        {
+            TransformComponent trans = other.TransformComponent;
+            if (trans != null)
+                return (transform.Location - trans.transform.Location).Length;
+            else
+                throw new NullReferenceException("AActor " + other.ObjectName + "does not have a TransformComponent attached!");
+        }
+        public float FastDistanceTo(AActor other)
+        {
+            TransformComponent trans = other.TransformComponent;
+            if (trans != null)
+                return (transform.Location - trans.transform.Location).LengthFast;
+            else
+                throw new NullReferenceException("AActor " + other.ObjectName + "does not have a TransformComponent attached!");
+        }
+        public float FastDistanceTo(TransformComponent other)
+        {
+            return (transform.Location - other.transform.Location).LengthFast;
+        }
     }
     public enum EMobilityType
     {

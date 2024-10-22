@@ -9,6 +9,7 @@ namespace Flux.Types
         MeshRef _internalMeshRef;
         public SubMesh[] subMeshes;
         private Material _material;
+        public float cullingDistance = -1;
         public StaticMeshComponent(MeshRef inMeshRef, Material inMaterial)
         {
             _material = inMaterial;
@@ -88,10 +89,15 @@ namespace Flux.Types
                 GL.BufferData(BufferTarget.ElementArrayBuffer, _indicesCount * sizeof(uint), meshData.Indices, BufferUsageHint.StaticDraw);
 
                 _material._shader.Use();
-
             }
             public void Render()
             {
+                if(_smc.cullingDistance != -1)
+                {
+                    if (RenderManager.activeCamera.ParentObject.TransformComponent.FastDistanceTo(_smc.ParentObject) > _smc.cullingDistance)
+                        return;
+                }
+                
                 GL.BindVertexArray(VertexArrayObject);
                 _material.Render(_smc.ParentObject.TransformComponent);
                 GL.DrawElements(PrimitiveType.Triangles, _indicesCount, DrawElementsType.UnsignedInt, 0);
