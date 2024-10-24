@@ -10,7 +10,7 @@ namespace Flux.Types
         public SubMesh[] subMeshes;
         private Material _material;
         public float cullingDistance = -1;
-
+        public bool isVisible = true;
         public StaticMeshComponent(MeshRef inMeshRef, Material inMaterial)
         {
             _material = inMaterial;
@@ -46,6 +46,8 @@ namespace Flux.Types
         
         public bool Render()
         {
+            if (!isVisible)
+                return false;
             if (cullingDistance != -1)
             {
                 if (RenderManager.activeCamera.ParentObject.TransformComponent.FastDistanceTo(ParentObject) > cullingDistance)
