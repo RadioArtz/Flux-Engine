@@ -8,9 +8,8 @@ namespace FluxGame
 {
     public static class VoxelTerrain
     {
-        // Each voxel is a 1x1x1 cube, and we're generating terrain for a 16x16 block area.
-        const int WIDTH = 512;
-        const int HEIGHT = 512;
+        const int WIDTH = 320;
+        const int HEIGHT = 320;
         #region cubedata
         // Cube vertex positions
         private static readonly float[] cubeVerts = {
@@ -147,7 +146,6 @@ namespace FluxGame
             List<uint> indexList = new List<uint>();
             uint vertexOffset = 0;
 
-            // Iterate over a 16x16 area to generate blocks
             for (int x = 0; x < WIDTH; x++)
             {
                 for (int y = 0; y < HEIGHT; y++)
@@ -185,27 +183,20 @@ namespace FluxGame
 
         private static void AddCube(int x, int y, int z, ref List<float> verts, ref List<float> normals, ref List<float> uvs, ref List<uint> indices, ref uint vertexOffset)
         {
-            // Add cube vertices
             for (int i = 0; i < cubeVerts.Length; i += 3)
             {
                 verts.Add(cubeVerts[i] + x);
                 verts.Add(cubeVerts[i + 1] + y);
                 verts.Add(cubeVerts[i + 2] + z);
             }
-
-            // Add cube normals
             normals.AddRange(cubeNormals);
-
-            // Add cube UVs (all zeroes for now)
             uvs.AddRange(cubeUVs);
 
-            // Add cube indices
             for (int i = 0; i < cubeIndices.Length; i++)
             {
                 indices.Add(cubeIndices[i] + vertexOffset);
             }
-
-            vertexOffset += 24; // 24 vertices per cube (6 faces, 4 vertices per face)
+            vertexOffset += 24;
         }
     }
 
