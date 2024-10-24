@@ -20,11 +20,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Materials\" />
-    <Folder Include="Shaders\" />
+    <PackageReference Include="BulletSharp.x64" Version="0.12.0" />
+    <PackageReference Include="SimplexNoise" Version="2.0.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Shaders\voxel.frag">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Shaders\main.frag">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

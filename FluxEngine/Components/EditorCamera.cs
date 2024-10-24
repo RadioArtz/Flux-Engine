@@ -21,7 +21,7 @@ namespace Flux.Types
             Mouse = _window.MouseState;
             Keyboard = _window.KeyboardState;
             TransformComponent trans = ParentObject.TransformComponent;
-            float movespeed = delta*8;
+            float movespeed = delta*128;
             float sensitivity = .1f;
 
             float deltaX = Mouse.X - lastPos.X;

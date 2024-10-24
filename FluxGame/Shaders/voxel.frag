@@ -19,21 +19,21 @@ void main()
 
     FragColor = vec4(0.5, 0.5, 0.5, 1.0);
     
-    //if (FragPos.y >= 64.001)
-    //{
-    //    FragColor = vec4(1.0, 1.0, 1.0, 1.0);
-    //}
-    //if (FragPos.y <= 20.001)
-    //{
-    //    FragColor = vec4(0.1, 1.0, 0.25, 1.0);
-    //}
-    //if (FragPos.y <= 6.001)
-    //{
-    //    FragColor = vec4(0.79, 0.73, 0.57, 1.0);
-    //}
-    //if (FragPos.y <= 4.001)
-    //{
-    //    FragColor = vec4(0.2, 0.0, 1.0, 1.0);
-    //}
-    //FragColor *= vec4(lighted, lighted, lighted, 1.0);
+    if (FragPos.y >= 64.001)
+    {
+        FragColor = vec4(1.0, 1.0, 1.0, 1.0);
+    }
+    if (FragPos.y <= 20.001)
+    {
+        FragColor = vec4(0.1, 1.0, 0.25, 1.0);
+    }
+    if (FragPos.y <= 6.001)
+    {
+        FragColor = vec4(0.79, 0.73, 0.57, 1.0);
+    }
+    if (FragPos.y <= 4.001)
+    {
+        FragColor = vec4(0.2, 0.0, 1.0, 1.0);
+    }
+    FragColor *= vec4(lighted, lighted, lighted, 1.0);
 }

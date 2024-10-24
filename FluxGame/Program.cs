@@ -10,7 +10,7 @@ namespace FluxGame
         }
         public static void GameStart()
         {
-            Engine.window.SetActiveScene(new TestScene());
+            Engine.window.SetActiveScene(new VoxelTestScene());
         }
     }
 }
