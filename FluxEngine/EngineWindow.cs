@@ -40,12 +40,13 @@ namespace Flux.Core
             _activeScene?.TickActors(_deltatime);
             RenderManager.Render();
             SwapBuffers();
+            _deltatime = (float)_deltaCalc.Elapsed.TotalSeconds;
+            _deltaCalc.Restart();
         }
         protected override void OnUpdateFrame(FrameEventArgs args)
         {
             base.OnUpdateFrame(args);
-            _deltatime = (float)_deltaCalc.Elapsed.TotalSeconds;
-            _deltaCalc.Restart();
+            
             if (KeyboardState.IsKeyDown(Keys.Escape))
             {
                 Close();
@@ -76,7 +77,7 @@ namespace Flux.Core
         {
             base.OnResize(e);
             GL.Viewport(0, 0, e.Width, e.Height);
-            RenderManager._projection = Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(90.0f), (float)e.Width / (float)e.Height, 0.1f, 2048);
+            RenderManager._projection = Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(80.0f), (float)e.Width / (float)e.Height, 0.1f, 4096);
         }
         protected override void OnUnload()
         {

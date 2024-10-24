@@ -6,12 +6,14 @@ namespace Flux.Types
 {
     public class TransformComponent : BaseComponent
     {
+        public Vector3 GetVelocity() { return _velocity; }
         public Transform transform;
+        public EMobilityType mobilityType = EMobilityType.Movable;
+
         private Vector3 _previousPosition;
         private Vector3 _velocity;
-        public Vector3 GetVelocity() { return _velocity; }
-        public EMobilityType mobilityType = EMobilityType.Movable;
-        Matrix4 ModelMatrixCache;
+        private Matrix4 ModelMatrixCache;
+        
         public TransformComponent()
         {
             transform.Scale = new Vector3(1, 1, 1);
@@ -23,6 +25,7 @@ namespace Flux.Types
                 Debug.Log("Creating static model matrix...", ConsoleColor.DarkCyan);
             }
         }
+       
         public TransformComponent(Transform initTransform)
         {
             transform = initTransform;
@@ -32,6 +35,7 @@ namespace Flux.Types
                 Debug.Log("Creating static model matrix...", ConsoleColor.DarkCyan);
             }
         }
+       
         public Matrix4 GetModelMatrix(bool overrideStatic = false)
         {
             if (mobilityType == EMobilityType.Static && !overrideStatic)
@@ -53,15 +57,18 @@ namespace Flux.Types
             ModelMatrixCache = model;
             return model;
         }
+        
         public override void OnTick(float delta)
         {
             _velocity = _previousPosition - transform.Location;
             _previousPosition = transform.Location;
         }
+        
         public float DistanceTo(TransformComponent other)
         {
             return (transform.Location - other.transform.Location).Length;
         }
+        
         public float DistanceTo(AActor other)
         {
             TransformComponent trans = other.TransformComponent;
@@ -70,6 +77,7 @@ namespace Flux.Types
             else
                 throw new NullReferenceException("AActor " + other.ObjectName + "does not have a TransformComponent attached!");
         }
+        
         public float FastDistanceTo(AActor other)
         {
             TransformComponent trans = other.TransformComponent;
@@ -78,6 +86,7 @@ namespace Flux.Types
             else
                 throw new NullReferenceException("AActor " + other.ObjectName + "does not have a TransformComponent attached!");
         }
+        
         public float FastDistanceTo(TransformComponent other)
         {
             return (transform.Location - other.transform.Location).LengthFast;
