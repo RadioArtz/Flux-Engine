@@ -32,7 +32,6 @@ namespace FluxGame
             myAwesomeCamera.AddComponent(new EditorCamera(Engine.window));
             myAwesomeCamera.AddComponent(new AudioListenerComponent());
 
-
             RenderTesterActor = new BasicActor();
             AudioTesterActor = new BasicActor();
             AudioTesterActor.AddComponent(new AudioSourceComponent(@"C:\\575053 Camellia - Exit This Earth's Atomosphere/audio.mp3", true, 0, 0, 0, EAudioMode.Audio2D, true));
