@@ -13,6 +13,8 @@ namespace Flux.Core.Rendering
         public static CameraComponent activeCamera;
         public static Matrix4 _projection;
 
+        private static int drawCount = 0;
+
         static RenderManager()
         {
             Debug.Log("Preparing Fallback shaders...", ConsoleColor.Cyan, ConsoleColor.DarkGray);
@@ -29,8 +31,12 @@ namespace Flux.Core.Rendering
         {   
             foreach (StaticMeshComponent smc in _staticMeshComponents)
             {
-                smc.Render();
+                bool wasRendered = smc.Render();
+                if (wasRendered)
+                    drawCount += smc.subMeshes.Length;
             }
+            Engine.window.Title = "Flux Engine | DrawCount: " + drawCount;
+            drawCount = 0;
             return true;
         }
         public static Shader CompileAndRegisterShader(string fragShader, string vertShader)

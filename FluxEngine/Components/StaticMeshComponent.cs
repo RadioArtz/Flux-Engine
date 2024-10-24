@@ -10,6 +10,7 @@ namespace Flux.Types
         public SubMesh[] subMeshes;
         private Material _material;
         public float cullingDistance = -1;
+
         public StaticMeshComponent(MeshRef inMeshRef, Material inMaterial)
         {
             _material = inMaterial;
@@ -17,6 +18,7 @@ namespace Flux.Types
             GenerateSubMeshes(MeshLoader.GetMeshAssetFromRef(inMeshRef));
             RenderManager.RegisterStaticMeshComponent(this);
         }
+        
         /// <summary>
         /// Initialize the StaticMesh with custom mesh data.
         /// </summary>
@@ -31,19 +33,29 @@ namespace Flux.Types
             GenerateSubMeshes(tmpAsset);
             RenderManager.RegisterStaticMeshComponent(this);
         }
+        
         public void GenerateSubMeshes(StaticMeshAsset meshAsset)
         {
             subMeshes = new SubMesh[meshAsset.Meshes.Length];
             for(int i = 0; i < meshAsset.Meshes.Length; i++)
             {
                 subMeshes[i] = new SubMesh(meshAsset.Meshes[i], _material, this);
-                Flux.Core.Debug.LogEngine("submeshAdded");
+                //Flux.Core.Debug.LogEngine("submeshAdded");
             }
         }
-        public void Render()
+        
+        public bool Render()
         {
+            if (cullingDistance != -1)
+            {
+                if (RenderManager.activeCamera.ParentObject.TransformComponent.FastDistanceTo(ParentObject) > cullingDistance)
+                    return false;
+            }
             foreach (SubMesh sub in subMeshes)
-                sub.Render();
+            {
+                sub.SubmeshRender();
+            }
+            return true;
         }
 
         public class SubMesh
@@ -53,10 +65,9 @@ namespace Flux.Types
             private int VertexBufferObject;
             private int VertexArrayObject;
             private int ElementBufferObject;
-
             private int _indicesCount;
-
             private StaticMeshComponent _smc;
+
             public SubMesh(MeshData meshData, Material mat, StaticMeshComponent staticMeshCompRef)
             {
                 _smc = staticMeshCompRef;
@@ -90,14 +101,9 @@ namespace Flux.Types
 
                 _material._shader.Use();
             }
-            public void Render()
+
+            public void SubmeshRender()
             {
-                if(_smc.cullingDistance != -1)
-                {
-                    if (RenderManager.activeCamera.ParentObject.TransformComponent.FastDistanceTo(_smc.ParentObject) > _smc.cullingDistance)
-                        return;
-                }
-                
                 GL.BindVertexArray(VertexArrayObject);
                 _material.Render(_smc.ParentObject.TransformComponent);
                 GL.DrawElements(PrimitiveType.Triangles, _indicesCount, DrawElementsType.UnsignedInt, 0);

@@ -4,6 +4,7 @@ using Flux.Constants;
 using OpenTK.Windowing.Common;
 using Flux.Core;
 using Flux.Types;
+using Un4seen.Bass;
 
 namespace Flux
 {
@@ -35,13 +36,22 @@ namespace Flux
             // Force OpenGL Core
             nativeSettings.Profile = ContextProfile.Core;
             gameSettings.UpdateFrequency = RenderingConfig.UPDATE_MAX;
-
+            InitBass();
             window = new EngineWindow(nativeSettings, gameSettings);
 
             window.OnInitializedCallback = onInitialized;
 
             window.Run();
             Debug.Log("Test");
+        }
+
+        static void InitBass()
+        {
+            if (!Bass.BASS_Init(-1, 44100, BASSInit.BASS_DEVICE_DEFAULT, IntPtr.Zero))
+            {
+                Debug.LogError("BASS initialization failed with error: " + Bass.BASS_ErrorGetCode());
+                return;
+            }
         }
     }
 }
