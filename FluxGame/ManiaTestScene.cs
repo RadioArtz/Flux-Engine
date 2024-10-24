@@ -34,12 +34,12 @@ namespace FluxGame
 
             RenderTesterActor = new BasicActor();
             AudioTesterActor = new BasicActor();
-            AudioTesterActor.AddComponent(new AudioSourceComponent(@"C:\\575053 Camellia - Exit This Earth's Atomosphere/audio.mp3", true, 0, 0, 0, EAudioMode.Audio2D, true));
+            AudioTesterActor.AddComponent(new AudioSourceComponent(Path.Combine("Assets", "audio.mp3"), true, 0, 0, 0, EAudioMode.Audio2D, true));
 
             parser = new ManiaBeatmapParser();
-            parser.Parse(@"C:\\575053 Camellia - Exit This Earth's Atomosphere/Camellia - Exit This Earth's Atomosphere (Protastic101) [7.667 kms].osu");
+            parser.Parse(Path.Combine("Assets", "camellia.osu"));
             List<BasicActor> shitlist = new List<BasicActor>();
-            MeshRef hitobjectMesh = MeshLoader.LoadMeshFromFile(@"D:\Games\UE5_5_4\UE_5.4\Templates\TemplateResources\Standard/1M_Cube.FBX");
+            MeshRef hitobjectMesh = MeshLoader.LoadMeshFromFile(Path.Combine("Assets", "Cube.fbx"));
             Material cubeMat = new WhiteMat();
             foreach (ManiaHitObject obj in parser.HitObjects)
             {
@@ -47,7 +47,7 @@ namespace FluxGame
                 act.AddComponent(new StaticMeshComponent(hitobjectMesh, cubeMat));
                 act.TransformComponent.transform.Scale = new Vector3(0.01f);
                 act.AddComponent(new maniaMover(obj.TimeMs, obj.Key));
-                act.AddComponent(new AudioSourceComponent(@"D:\\Users\\Mathias\\Desktop\\DesktopDecember2020\\Files\\bruh/hitsound.wav", false,0,0,0,EAudioMode.Audio2D,false));
+                act.AddComponent(new AudioSourceComponent(Path.Combine("Assets", "hitsound.wav"), false,0,0,0,EAudioMode.Audio2D,false));
                 act.GetComponent<StaticMeshComponent>().cullingDistance = 500;
                 shitlist.Add(act);
             }

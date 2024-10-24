@@ -10,6 +10,7 @@ namespace Flux
 {
     public static class Engine
     {
+        public static string[] startArgs;
         private static NativeWindowSettings nativeSettings = NativeWindowSettings.Default;
         private static GameWindowSettings gameSettings = GameWindowSettings.Default;
         public static EngineWindow? window { get; private set; }
@@ -17,6 +18,7 @@ namespace Flux
 
         public static void Main(string[] args, Action onInitialized)
         {
+            startArgs = args;
             InitEngine(onInitialized);
         }
 

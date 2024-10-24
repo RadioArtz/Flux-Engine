@@ -21,7 +21,7 @@ namespace Flux.Constants
         public static int FULLSCREEN_MODE { get; private set; } = 0;
         public static int MSAA_SAMPLES { get; private set; } = 2;
 
-        public static string SHADER_FALLBACK_FRAG = "Shaders\\fallback.frag";
-        public static string SHADER_FALLBACK_VERT = "Shaders\\fallback.vert";
+        public static string SHADER_FALLBACK_FRAG = Path.Combine("Shaders", "fallback.frag");
+        public static string SHADER_FALLBACK_VERT = Path.Combine("Shaders", "fallback.vert");
     }
 }   
