@@ -35,12 +35,14 @@ namespace Flux.Types
             _filePath = filePath;
             Init(); 
         }
+       
         public AudioSourceComponent(string filePath, EAudioMode audioMode = EAudioMode.Audio2D) 
         {
             _filePath = filePath;
             _audioMode = audioMode; 
             Init(); 
         }
+       
         public AudioSourceComponent(string filePath, bool autoplay=true, float maxDistance = 128, float falloff = 1, float dopplerLevel = 1, EAudioMode audioMode = EAudioMode.Audio3D, bool shouldLoop = false) 
         { 
             _filePath = filePath;
@@ -59,12 +61,6 @@ namespace Flux.Types
             {
                 Debug.LogError("NO ACTIVE AUDIO LISTENER! 3D Audio will NOT work! Forcing source to be 2D...");
                 _audioMode = EAudioMode.Audio2D;
-            }
-
-            if (!Bass.BASS_Init(-1, 44100, BASSInit.BASS_DEVICE_DEFAULT, IntPtr.Zero))
-            {
-                Debug.LogError("BASS initialization failed with error: " + Bass.BASS_ErrorGetCode());
-                return;
             }
 
             BASSFlag sampleFlag;
@@ -114,7 +110,6 @@ namespace Flux.Types
                 Play();
             }
         }
-
 
         public void Play()
         {
