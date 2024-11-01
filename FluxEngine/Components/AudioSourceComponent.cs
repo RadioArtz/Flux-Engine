@@ -30,16 +30,11 @@ namespace Flux.Types
         public bool _shouldLoop = false;
         #endregion
 
-        public AudioSourceComponent(string filePath) 
+        public AudioSourceComponent(string filePath, bool autoplay = true, EAudioMode audioMode = EAudioMode.Audio2D) 
         {
             _filePath = filePath;
-            Init(); 
-        }
-       
-        public AudioSourceComponent(string filePath, EAudioMode audioMode = EAudioMode.Audio2D) 
-        {
-            _filePath = filePath;
-            _audioMode = audioMode; 
+            _audioMode = audioMode;
+            _autoplay = autoplay;
             Init(); 
         }
        
