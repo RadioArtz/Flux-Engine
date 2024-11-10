@@ -8,8 +8,10 @@ namespace FluxGame
 {
     public static class VoxelTerrain
     {
-        const int WIDTH = 320;
-        const int HEIGHT = 320;
+        public static int blockCounter = 0;
+        const int WIDTH = 16;
+        const int LENGTH = 16;
+        const int HEIGTH = 128+32;
         #region cubedata
         // Cube vertex positions
         private static readonly float[] cubeVerts = {
@@ -145,35 +147,43 @@ namespace FluxGame
             List<float> uvList = new List<float>();
             List<uint> indexList = new List<uint>();
             uint vertexOffset = 0;
-
+            bool[,,] blocks = new bool[WIDTH, HEIGTH, LENGTH];
             for (int x = 0; x < WIDTH; x++)
             {
-                for (int y = 0; y < HEIGHT; y++)
+                for (int z = 0; z < LENGTH; z++)
                 {
-                    int xPos = x + xOffset*WIDTH;
-                    int yPos = y + zOffset*HEIGHT;
-                    float scale = 3f; //5 is good too
-                    float hillNoise = Noise.CalcPixel2D(xPos, yPos, 0.003f * scale) * .15f;
-                    float mountainNoise = Noise.CalcPixel2D(xPos, yPos, 0.0005f * scale) * .2f;
-                    float erosionNoise = Noise.CalcPixel2D(xPos, yPos, 0.0003f * scale) * .015f;
-                    float detailnoise = Noise.CalcPixel2D(xPos, yPos, 0.009f * scale * 0.4f) * 0.05f;
-                    float detailnoise2 = Noise.CalcPixel2D(xPos, yPos, 0.035f * scale * 0.4f) * 0.05f;
+                    int worldX = x + xOffset*WIDTH;
+                    int worldZ = z + zOffset*LENGTH;
+                    float scale = 3f;
+                    float hillNoise = Noise.CalcPixel2D(worldX, worldZ, 0.003f * scale) * .15f;
+                    float mountainNoise = Noise.CalcPixel2D(worldX, worldZ, 0.0005f * scale) * .2f;
+                    float erosionNoise = Noise.CalcPixel2D(worldX, worldZ, 0.0003f * scale) * .015f;
+                    float detailnoise = Noise.CalcPixel2D(worldX, worldZ, 0.009f * scale * 0.4f) * 0.05f;
+                    float detailnoise2 = Noise.CalcPixel2D(worldX, worldZ, 0.035f * scale * 0.4f) * 0.05f;
                     detailnoise = MathExt.Lerp(detailnoise, detailnoise2, 0.2f);
                     detailnoise = MathExt.Lerp(detailnoise, 1, 0.9f);
                     float finalNoise = MathExt.Lerp(hillNoise, mountainNoise, erosionNoise) * (detailnoise * erosionNoise * 0.2f);
 
-                    int height = (int)MathF.Round((finalNoise * .75f));
-
-                    AddCube(x+ xOffset * WIDTH, height, y+zOffset * HEIGHT, ref vertList, ref normalList, ref uvList, ref indexList, ref vertexOffset);
-                    if (finalNoise * 0.5f > 34)
+                    int finalHeight = (int)MathF.Round((finalNoise * 1f))+24;
+                    finalHeight = Math.Clamp(finalHeight, 32, HEIGTH);
+                    for (int y = 0; y <= finalHeight && y < HEIGTH; y++)
                     {
-                        //AddCube(x + xOffset, -1 + height, y + zOffset, ref vertList, ref normalList, ref uvList, ref indexList, ref vertexOffset);
-                        //AddCube(x + xOffset, -2 + height, y + zOffset, ref vertList, ref normalList, ref uvList, ref indexList, ref vertexOffset);
-                        //if(finalNoise * 0.5f > 56)
-                        //AddCube(x + xOffset, -2 + height, y + zOffset, ref vertList, ref normalList, ref uvList, ref indexList, ref vertexOffset);
+                        blocks[x, y, z] = true;
                     }
                 }
             }
+            for (int x = 0; x < WIDTH; x++) 
+            {
+                for (int y = 0; y < HEIGTH; y++)
+                {
+                    for (int z = 0; z < LENGTH; z++)
+                    {
+                        if (blocks[x, y, z])
+                            AddCube(x + xOffset * WIDTH, y, z + zOffset * LENGTH, ref vertList, ref normalList, ref uvList, ref indexList, ref vertexOffset);
+                    }
+                }
+            }
+
 
             verts = vertList.ToArray();
             normals = normalList.ToArray();
@@ -183,6 +193,7 @@ namespace FluxGame
 
         private static void AddCube(int x, int y, int z, ref List<float> verts, ref List<float> normals, ref List<float> uvs, ref List<uint> indices, ref uint vertexOffset)
         {
+            blockCounter++;
             for (int i = 0; i < cubeVerts.Length; i += 3)
             {
                 verts.Add(cubeVerts[i] + x);

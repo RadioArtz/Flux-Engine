@@ -12,16 +12,16 @@ namespace FluxGame
 {
     public class VoxelTestScene : FScene
     {
-        AActor RenderTesterActor;
-        AActor AudioTesterActor;
+        AActor? RenderTesterActor;
+        AActor? AudioTesterActor;
         MeshRef terrainMesh;
         MeshRef cubeMesh;
-        AActor myAwesomeCamera;
+        AActor? myAwesomeCamera;
         double audioTestTime;
         float totalTime;
         public float scaley;
         bool ready;
-        Material voxelmat = new Voxelmat();
+        Material voxelmat = new UnlitTexturedMat();
 
         public override void OnLoad()
         {
@@ -29,61 +29,38 @@ namespace FluxGame
             myAwesomeCamera = new BasicActor();
             myAwesomeCamera.AddComponent(new CameraComponent());
             RenderManager.activeCamera = (CameraComponent)myAwesomeCamera.ChildComponents[0];
-            myAwesomeCamera.AddComponent(new EditorCamera(Engine.window));
+            myAwesomeCamera.AddComponent(new EditorCamera(Engine.window!));
             myAwesomeCamera.AddComponent(new AudioListenerComponent());
 
             Debug.Log("Generating Terrain!");
             RenderTesterActor = new BasicActor();
-            float[] _vertices;
-            float[] _uvCoords;
-            float[] _normals;
-            uint[] _indices;
+
 
 
             Debug.Log("GENERATING... 01|09");
-            VoxelTerrain.GenerateTerrain(out _vertices, out _normals, out _uvCoords, out _indices, 0, 0);
+            VoxelTerrain.GenerateTerrain(out float[] _vertices, out float[] _normals, out float[] _uvCoords, out uint[] _indices, 0, 0);
             MeshData voxelData = new MeshData(_vertices, _normals, _uvCoords, _indices);
-            RenderTesterActor.AddComponent(new StaticMeshComponent(voxelData, voxelmat));
+            RenderTesterActor.AddComponent(new StaticMeshComponent(voxelData, voxelmat));;
+            int idx = 0;
+            int size = 16;
+            for (int x = 0; x < size; x++)
+            {
+                for (int y = 0; y < size; y++)
+                {
+                    if (!(x == y && y == 0))
+                    {
+                        
+                        Debug.Log("Generating: " + idx + "/" + size * size);
+                        VoxelTerrain.GenerateTerrain(out _vertices, out _normals, out _uvCoords, out _indices, x, y);
+                        voxelData = new MeshData(_vertices, _normals, _uvCoords, _indices);
+                        RenderTesterActor.AddComponent(new StaticMeshComponent(voxelData, voxelmat));
+                    }
+                    idx++;
+                }
+            }
 
-            Debug.Log("GENERATING... 02|09");
-            VoxelTerrain.GenerateTerrain(out _vertices, out _normals, out _uvCoords, out _indices, 1, 0);
-            voxelData = new MeshData(_vertices, _normals, _uvCoords, _indices);
-            RenderTesterActor.AddComponent(new StaticMeshComponent(voxelData, voxelmat));
+            GC.Collect();
 
-            Debug.Log("GENERATING... 03|09");
-            VoxelTerrain.GenerateTerrain(out _vertices, out _normals, out _uvCoords, out _indices, 2, 0);
-            voxelData = new MeshData(_vertices, _normals, _uvCoords, _indices);
-            RenderTesterActor.AddComponent(new StaticMeshComponent(voxelData, voxelmat));
-
-            Debug.Log("GENERATING... 04|09");
-            VoxelTerrain.GenerateTerrain(out _vertices, out _normals, out _uvCoords, out _indices, 0, 1);
-            voxelData = new MeshData(_vertices, _normals, _uvCoords, _indices);
-            RenderTesterActor.AddComponent(new StaticMeshComponent(voxelData, voxelmat));
-
-            Debug.Log("GENERATING... 05|09");
-            VoxelTerrain.GenerateTerrain(out _vertices, out _normals, out _uvCoords, out _indices, 0, 2);
-            voxelData = new MeshData(_vertices, _normals, _uvCoords, _indices);
-            RenderTesterActor.AddComponent(new StaticMeshComponent(voxelData, voxelmat));
-
-            Debug.Log("GENERATING... 06|09");
-            VoxelTerrain.GenerateTerrain(out _vertices, out _normals, out _uvCoords, out _indices, 1, 1);
-            voxelData = new MeshData(_vertices, _normals, _uvCoords, _indices);
-            RenderTesterActor.AddComponent(new StaticMeshComponent(voxelData, voxelmat));
-
-            Debug.Log("GENERATING... 07|09");
-            VoxelTerrain.GenerateTerrain(out _vertices, out _normals, out _uvCoords, out _indices, 2, 1);
-            voxelData = new MeshData(_vertices, _normals, _uvCoords, _indices);
-            RenderTesterActor.AddComponent(new StaticMeshComponent(voxelData, voxelmat));
-
-            Debug.Log("GENERATING... 08|09");
-            VoxelTerrain.GenerateTerrain(out _vertices, out _normals, out _uvCoords, out _indices, 1, 2);
-            voxelData = new MeshData(_vertices, _normals, _uvCoords, _indices);
-            RenderTesterActor.AddComponent(new StaticMeshComponent(voxelData, voxelmat));
-
-            Debug.Log("GENERATING... 09|09");
-            VoxelTerrain.GenerateTerrain(out _vertices, out _normals, out _uvCoords, out _indices, 2, 2);
-            voxelData = new MeshData(_vertices, _normals, _uvCoords, _indices);
-            RenderTesterActor.AddComponent(new StaticMeshComponent(voxelData, voxelmat));
         }
 
         public override void OnTick(float delta)
