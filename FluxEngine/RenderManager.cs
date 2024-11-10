@@ -35,7 +35,7 @@ namespace Flux.Core.Rendering
                 if (wasRendered)
                     drawCount += smc.subMeshes.Length;
             }
-            Engine.window.Title = "Flux Engine | DrawCount: " + drawCount;
+            Engine.window.Title = "Flux Engine | DrawCount: " + drawCount + " GameObjects: " + Engine.window.GetActiveScene().GetActors().Length + " Components: " + getComponentCount();
             drawCount = 0;
             return true;
         }
@@ -56,7 +56,17 @@ namespace Flux.Core.Rendering
                 return shader;
             }
         }
-
+        static int getComponentCount()
+        {
+            int count = 0;
+            foreach(AActor act in Engine.window.GetActiveScene().GetActors())
+            {
+                count += act.ChildComponents.Count;
+                if(act.TransformComponent != null)
+                    count += 1;
+            }
+            return count;
+        }
         public static bool CheckShaderCompiled(string fragShader, string vertShader, out Shader outShader)
         {
             foreach (ShaderRef current in _shaders)

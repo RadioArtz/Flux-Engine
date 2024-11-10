@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "FluxGame": {
+      "commandName": "Project",
+      "commandLineArgs": "voxel"
+    }
+  }
+}

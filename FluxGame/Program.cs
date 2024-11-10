@@ -13,11 +13,13 @@ namespace FluxGame
         public static void GameStart()
         {
             if (Engine.startArgs == null)
-                Engine.window.SetActiveScene(new ManiaTestScene());
+                Engine.window!.SetActiveScene(new ManiaTestScene());
+            else if(Engine.startArgs.Length == 0)
+                Engine.window!.SetActiveScene(new ManiaTestScene());
             else if (Engine.startArgs[0] == "voxel")
-                Engine.window.SetActiveScene(new VoxelTestScene());
+                Engine.window!.SetActiveScene(new VoxelTestScene());
             else if(Engine.startArgs[0] == "mania")
-                Engine.window.SetActiveScene(new ManiaTestScene());
+                Engine.window!.SetActiveScene(new ManiaTestScene());
         }
     }
 }

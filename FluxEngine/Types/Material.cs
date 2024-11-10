@@ -5,32 +5,32 @@ namespace Flux.Core.Rendering
 {
     public class Material
     {
-        public virtual string getVertShaderPath() 
+        public virtual string GetVertShaderPath() 
         {
             return vertShaderPath;
         }
-        public virtual string getFragShaderPath()
+        public virtual string GetFragShaderPath()
         {
             return fragShaderpath;
         }
 
         public string vertShaderPath = RenderingConfig.SHADER_FALLBACK_VERT;
         public string fragShaderpath = RenderingConfig.SHADER_FALLBACK_FRAG;
-        public Shader _shader;
+        public Shader? _shader;
 
-        public void Compile()=> _shader = RenderManager.CompileAndRegisterShader(getFragShaderPath(), getVertShaderPath());
+        public void Compile()=> _shader = RenderManager.CompileAndRegisterShader(GetFragShaderPath(), GetVertShaderPath());
 
         public virtual void Render(TransformComponent inTransform) 
         {
-            if (RenderManager.CheckIfShaderCompiled(getFragShaderPath(), getVertShaderPath()))
+            if (RenderManager.CheckIfShaderCompiled(GetFragShaderPath(), GetVertShaderPath()))
             {
                 RenderManager.activeCamera.UpdateViewMatrix();
 
-                _shader.SetMatrix4("model", inTransform.GetModelMatrix());
-                _shader.SetMatrix4("view", RenderManager.activeCamera.view);
-                _shader.SetMatrix4("projection", RenderManager._projection);
+                _shader!.SetMatrix4("model", inTransform.GetModelMatrix());
+                _shader!.SetMatrix4("view", RenderManager.activeCamera.view);
+                _shader!.SetMatrix4("projection", RenderManager._projection);
 
-                _shader.Use();
+                _shader!.Use();
             }
             else
                 Compile();

@@ -11,10 +11,10 @@ namespace Flux.Core
 {
     public class EngineWindow : GameWindow
     {
-        private FScene _activeScene;
+        private FScene? _activeScene;
         private Stopwatch _deltaCalc = new Stopwatch();
         private float _deltatime = 0.0f;
-        public Action OnInitializedCallback;
+        public Action? OnInitializedCallback;
 
         public EngineWindow(NativeWindowSettings windowSettingsNative, GameWindowSettings windowSettingsGame) 
                :base(windowSettingsGame, windowSettingsNative)
@@ -22,7 +22,7 @@ namespace Flux.Core
             Debug.LogEngine("Engine window constructed...");
         }
 
-        public FScene GetActiveScene() { return _activeScene; }
+        public FScene? GetActiveScene() { return _activeScene; }
 
         public void SetActiveScene(FScene scene)
         {
@@ -71,7 +71,7 @@ namespace Flux.Core
             GL.FrontFace(FrontFaceDirection.Ccw);
             GL.ClearColor(0.2f, 0.3f, 0.3f, 1.0f);
             Debug.LogEngine("Engine initialized");
-            OnInitializedCallback.Invoke();
+            OnInitializedCallback!.Invoke();
         }
         protected override void OnResize(ResizeEventArgs e)
         {
