@@ -6,11 +6,11 @@ namespace FluxGame.Materials
     public class BlackMat : Material
     {
         public BlackMat() { Compile(); }
-        public override string getVertShaderPath()
+        public override string GetVertShaderPath()
         {
             return Path.Combine("Shaders", "main.vert");
         }
-        public override string getFragShaderPath()
+        public override string GetFragShaderPath()
         {
             return Path.Combine("Shaders", "main.frag");
         }
