@@ -26,7 +26,7 @@ The engine is inspired by **Unity** and **Unreal Engine** and is designed for cr
 ### Requirements  
 
 1. **Visual Studio 2022**  
-2. **.NET 6 SDK**  
+2. **.NET 8 SDK**  
 3. [Bass library](https://www.un4seen.com/files/bass24.zip) & [.NET wrapper](https://www.un4seen.com/files/z/4/Bass24.Net.zip).  
 4. NuGet dependencies (auto-managed).  
 
