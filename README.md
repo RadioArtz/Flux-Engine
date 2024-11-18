@@ -104,7 +104,8 @@ Contributions are welcome, but please keep in mind:
 ## 📜 License  
 
 This projects code is licensed under the **MIT License**.
-When building with the project, make sure to check the licenses of dependencies:
+When building with the project, make sure to check the licenses of dependencies!
+
 **[bass](https://www.un4seen.com/)** for example, is only free for non-commercial use!
 
 
