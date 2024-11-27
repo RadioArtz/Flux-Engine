@@ -4,7 +4,7 @@
 
 ### FLUX ENGINE
 
-**Flux Engine** is a **basic, x64 game engine / framework** built with **C# .NET 6**. It's a personal project for learning C# and exploring how game engines work.  
+**Flux Engine** is a **basic, x64 game engine / framework** built with **C# .NET 8**. It's a personal project for learning C# and exploring how game engines work.  
 Note that Code Quality may not always be high as I experiment, temporarily hack things in and simply learn more about C#!
 
 The engine is inspired by **Unity** and **Unreal Engine** and is designed for creating basic **2D and 3D games** or tools.  
