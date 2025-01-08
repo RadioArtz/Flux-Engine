@@ -10,6 +10,7 @@ namespace Flux.Types
         private int channel = -1;
         private bool _initialized = false;
 
+
         #region settings
         public bool _autoplay = true;
         public string _filePath = "A:/dealermono.wav";
@@ -30,16 +31,16 @@ namespace Flux.Types
         public bool _shouldLoop = false;
         #endregion
 
-        public AudioSourceComponent(string filePath, bool autoplay = true, EAudioMode audioMode = EAudioMode.Audio2D) 
+        public AudioSourceComponent(string filePath, bool autoplay = true, EAudioMode audioMode = EAudioMode.Audio2D)
         {
             _filePath = filePath;
             _audioMode = audioMode;
             _autoplay = autoplay;
-            Init(); 
+            Init();
         }
-       
-        public AudioSourceComponent(string filePath, bool autoplay=true, float maxDistance = 128, float falloff = 1, float dopplerLevel = 1, EAudioMode audioMode = EAudioMode.Audio3D, bool shouldLoop = false) 
-        { 
+
+        public AudioSourceComponent(string filePath, bool autoplay = true, float maxDistance = 128, float falloff = 1, float dopplerLevel = 1, EAudioMode audioMode = EAudioMode.Audio3D, bool shouldLoop = false)
+        {
             _filePath = filePath;
             _autoplay = autoplay;
             _maxDistance = maxDistance;
@@ -81,7 +82,7 @@ namespace Flux.Types
                 Debug.LogError("Failed to get channel with error: " + Bass.BASS_ErrorGetCode());
                 return;
             }
-            
+
             if (_audioMode == EAudioMode.Audio3D)
             {
                 Bass.BASS_ChannelSet3DAttributes(channel, BASS3DMode.BASS_3DMODE_NORMAL, -1, -1, -1, -1, -1);
@@ -108,16 +109,46 @@ namespace Flux.Types
 
         public void Play()
         {
+            if (channel == 0)
+            {
+                Debug.LogError("Channel is not initialized.");
+                return;
+            }
+
             if (!Bass.BASS_ChannelPlay(channel, false))
             {
                 Debug.LogError("Channel play failed with error: " + Bass.BASS_ErrorGetCode());
             }
         }
 
+        public void Stop()
+        {
+            if (GetCurrentPositionSeconds() == 0)
+                return;
+
+            if (channel == 0)
+            {
+                Debug.LogError("Channel is not initialized.");
+                return;
+            }
+
+            if (!Bass.BASS_ChannelPause(channel))
+            {
+                Debug.LogError("Channel stop failed with error: " + Bass.BASS_ErrorGetCode());
+            }
+            Bass.BASS_ChannelSetPosition(handle, 0);
+        }
+
         public override void OnTick(float delta)
         {
             if (!_initialized || _audioMode == EAudioMode.Audio2D)
                 return;
+
+            if (Engine.activeAudioListener == null)
+            {
+                Debug.LogError("No active audio listener.");
+                return;
+            }
 
             Transform listenerTransform = Engine.activeAudioListener.GetTransform();
             Vector3 listenerVelocity = Engine.activeAudioListener.GetVelocity();
@@ -139,6 +170,11 @@ namespace Flux.Types
 
             Bass.BASS_Set3DFactors(_maxDistance, _falloff, _dopplerLevel);
             Bass.BASS_Apply3D();
+
+            if (Bass.BASS_ChannelIsActive(channel) == BASSActive.BASS_ACTIVE_STOPPED)
+            {
+                channel = Bass.BASS_SampleGetChannel(handle, BASSFlag.BASS_DEFAULT);
+            }
         }
 
         /// <summary>
