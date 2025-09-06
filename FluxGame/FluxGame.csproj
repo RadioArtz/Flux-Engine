@@ -25,6 +25,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Assets\EDH\Grass.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Shaders\voxel.frag">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

@@ -5,7 +5,6 @@ using Flux.Types;
 using Flux;
 using FluxGame.Materials;
 using OpenTK.Mathematics;
-using Flux.Components;
 using FluxGame.OsuManiaParser;
 
 namespace FluxGame
@@ -29,7 +28,7 @@ namespace FluxGame
             myAwesomeCamera = new BasicActor();
             myAwesomeCamera.AddComponent(new CameraComponent());
             RenderManager.activeCamera = (CameraComponent)myAwesomeCamera.ChildComponents[0];
-            myAwesomeCamera.AddComponent(new EditorCamera(Engine.window!));
+            myAwesomeCamera.AddComponent(new EditorCameraController(Engine.window!));
             myAwesomeCamera.AddComponent(new AudioListenerComponent());
 
             Debug.Log("Generating Terrain!");
