@@ -9,9 +9,15 @@ namespace Flux.Types
         private List<BaseComponent> _childComponents = new List<BaseComponent>();
         public List<BaseComponent> ChildComponents { get => _childComponents; }
 
-        private TransformComponent _transformComponent = new TransformComponent();
+        private TransformComponent _transformComponent;
         public TransformComponent TransformComponent { get => _transformComponent; }
-        public AActor() { Engine.window.GetActiveScene().RegisterActor(this); }
+        public AActor()
+        {
+            Engine.window.GetActiveScene().RegisterActor(this);
+            _transformComponent = new TransformComponent();
+            _transformComponent.SetParent(this);
+            _transformComponent.OnComponentAttached(this);
+        }
         public abstract void Constructor();
         public abstract void BeginPlay();
         public abstract void OnTick(float delta);
@@ -24,7 +30,8 @@ namespace Flux.Types
                 else
                     Debug.LogError("Suboptimal implementation of BaseComponents canEverTick! unneseccary querrying of bool. switch for some other cached solution!");
             }
-            _transformComponent.OnTick(delta);
+            if(_transformComponent != null)
+                _transformComponent.OnTick(delta);
         }
         public void AddComponent(BaseComponent Component)
         {

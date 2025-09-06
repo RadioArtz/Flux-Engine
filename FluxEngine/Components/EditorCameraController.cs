@@ -5,14 +5,14 @@ using Flux.Core;
 
 namespace Flux.Types
 {
-    public class EditorCamera : BaseComponent
+    public class EditorCameraController : BaseComponent
     {
         private MouseState? Mouse;
         private KeyboardState? Keyboard;
         private EngineWindow _window;
         public Vector2 lastPos { get; private set; }
 
-        public EditorCamera(EngineWindow window)
+        public EditorCameraController(EngineWindow window)
         {
             _window = window;
         }
@@ -34,7 +34,7 @@ namespace Flux.Types
             }
             _window.SetCursorGrabbed(CursorState.Grabbed);
             trans.transform.Rotation += new Vector3(-deltaY, deltaX, 0)*sensitivity;
-            trans.transform.Rotation.X = MathHelper.Clamp(trans.transform.Rotation.X,-89.9f , 89.9f);
+            //trans.transform.Rotation.X = MathHelper.Clamp(trans.transform.Rotation.X,-89.9f , 89.9f);
 
             if (Keyboard.IsKeyDown(Keys.LeftShift))
             {

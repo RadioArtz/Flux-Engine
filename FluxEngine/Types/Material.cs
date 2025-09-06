@@ -22,18 +22,20 @@ namespace Flux.Core.Rendering
 
         public virtual void Render(TransformComponent inTransform) 
         {
-            if (RenderManager.CheckIfShaderCompiled(GetFragShaderPath(), GetVertShaderPath()))
-            {
-                RenderManager.activeCamera.UpdateViewMatrix();
+            if (inTransform != null)
+                if (RenderManager.CheckIfShaderCompiled(GetFragShaderPath(), GetVertShaderPath()))
+                {
+                    RenderManager.activeCamera.UpdateViewMatrix();
+                    _shader!.SetMatrix4("model", inTransform.GetModelMatrix());
+                    _shader!.SetMatrix4("view", RenderManager.activeCamera.view);
+                    _shader!.SetMatrix4("projection", RenderManager._projection);
 
-                _shader!.SetMatrix4("model", inTransform.GetModelMatrix());
-                _shader!.SetMatrix4("view", RenderManager.activeCamera.view);
-                _shader!.SetMatrix4("projection", RenderManager._projection);
-
-                _shader!.Use();
-            }
+                    _shader!.Use();
+                }
+                else
+                    Compile();
             else
-                Compile();
+                return;
         }
     }
 }

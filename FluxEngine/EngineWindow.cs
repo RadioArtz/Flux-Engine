@@ -35,14 +35,13 @@ namespace Flux.Core
         {
             base.OnRenderFrame(args);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-            
-            _activeScene?.OnTick(_deltatime);
-            _activeScene?.TickActors(_deltatime);
+
+            _activeScene?.OnTick((float)args.Time);
+            _activeScene?.TickActors((float)args.Time);
             RenderManager.Render();
             SwapBuffers();
-            _deltatime = (float)_deltaCalc.Elapsed.TotalSeconds;
-            _deltaCalc.Restart();
         }
+
         protected override void OnUpdateFrame(FrameEventArgs args)
         {
             base.OnUpdateFrame(args);
@@ -73,15 +72,29 @@ namespace Flux.Core
             Debug.LogEngine("Engine initialized");
             OnInitializedCallback!.Invoke();
         }
+        private int _newWidth;
+        private int _newHeigth;
         protected override void OnResize(ResizeEventArgs e)
         {
             base.OnResize(e);
             GL.Viewport(0, 0, e.Width, e.Height);
-            RenderManager._projection = Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(80.0f), (float)e.Width / (float)e.Height, 0.1f, 4096);
+            _newWidth = e.Width;
+            _newHeigth = e.Height;
+            //RenderManager._projection = Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(80.0f), (float)e.Width / (float)e.Height, 0.1f, 4096);
+            RecreateProjection();
+            //RenderManager._projection = Matrix4.CreateOrthographic((float)e.Width/2, (float)e.Height/2, 0.1f, 2048f);
         }
         protected override void OnUnload()
         {
             base.OnUnload();
+        }
+
+        public void RecreateProjection()
+        {
+            if(RenderManager.activeCamera != null)
+                RenderManager._projection = Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(RenderManager.activeCamera.fieldOfView), (float)_newWidth / (float)_newHeigth, 0.1f, 4096*16);
+            else
+                RenderManager._projection = Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(50f), (float)_newWidth / (float)_newHeigth, 0.1f, 4096 * 16);
         }
     }
 }

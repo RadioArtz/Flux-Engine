@@ -6,6 +6,7 @@ namespace Flux.Types
     public class CameraComponent : BaseComponent
     {
         public Matrix4 view { get; private set; }
+        public float fieldOfView = 80;
         public CameraComponent()
         {
         }

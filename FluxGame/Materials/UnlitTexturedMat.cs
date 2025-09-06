@@ -8,7 +8,7 @@ namespace FluxGame.Materials
         Texture myTex;
         public UnlitTexturedMat() 
         {
-            myTex = Texture.LoadFromFile("F:\\THE STICK\\enemy.png");
+            myTex = Texture.LoadFromFile(Path.Combine("Assets","EDH", "Grass.jpg"));
             Compile();
         }
         public override string GetVertShaderPath()

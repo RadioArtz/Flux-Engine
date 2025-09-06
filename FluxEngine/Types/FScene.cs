@@ -23,6 +23,7 @@ namespace Flux.Types
         }
         public void RegisterActor(AActor actor)
         {
+            Debug.LogEngine("Actor registered!");
             _Actors.Add(actor);
         }
         public void RemoveActor(AActor actor)
